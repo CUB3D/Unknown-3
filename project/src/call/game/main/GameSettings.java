@@ -1,0 +1,80 @@
+package call.game.main;
+
+
+public class GameSettings
+{
+	private int width;
+	private int height;
+	private String title;
+	private int tps;
+	private int fps;
+	
+	public GameSettings(int width, int heigth)
+	{
+		this(width, heigth, "");
+	}
+	
+	public GameSettings(int width, int height, String title)
+	{
+		this(width, height, title, 120, 60);
+	}
+	
+	public GameSettings(int width, int height, String title, int fps, int tps)
+	{
+		this.width = width;
+		this.height = height;
+		this.title = title;
+		this.fps = fps;
+		this.tps = tps;
+	}
+	
+	public void setWidth(int width)
+	{
+		this.width = width;
+	}
+	
+	public int getWidth()
+	{
+		return width;
+	}
+	
+	public void setHeight(int height)
+	{
+		this.height = height;
+	}
+	
+	public int getHeight()
+	{
+		return height;
+	}
+	
+	public void setFps(int fps)
+	{
+		this.fps = fps;
+	}
+	
+	public int getFps()
+	{
+		return fps;
+	}
+	
+	public void setTps(int tps)
+	{
+		this.tps = tps;
+	}
+	
+	public int getTps()
+	{
+		return tps;
+	}
+	
+	public void setTitle(String title)
+	{
+		this.title = title;
+	}
+	
+	public String getTitle()
+	{
+		return title;
+	}
+}
