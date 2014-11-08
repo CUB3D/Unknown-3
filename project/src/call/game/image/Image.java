@@ -3,12 +3,9 @@ package call.game.image;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.net.URL;
 
-import javax.imageio.ImageIO;
 import javax.media.opengl.GL2;
 
-import call.game.main.FileHelper;
 import call.game.main.Unknown;
 import call.game.physicx.bounding.BoundingBox;
 import call.utils.ImageUtils;
@@ -33,12 +30,7 @@ public class Image
 
 	public Image(String s)
 	{
-		URL path = FileHelper.getURL(s);
-
-		try
-		{
-			backend = ImageIO.read(path);
-		}catch(Exception e) {e.printStackTrace();}
+		backend = ImageCache.getImage(s);
 	}
 
 	public Image(BufferedImage img)
@@ -159,6 +151,11 @@ public class Image
 	public BoundingBox getBounds()
 	{
 		return bounds;
+	}
+	
+	public BufferedImage getBackend()
+	{
+		return backend;
 	}
 
 	@Override

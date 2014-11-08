@@ -28,6 +28,16 @@ public class EntityHandler
 				e.update();
 		}
 
+		for(BasicEntity e : entitys)
+			if(!e.isDead())
+				for(BasicEntity ee : entitys)
+					if(!ee.isDead())
+						if(e.getCollidableEntitys() != null)
+							if(ArrayUtils.contains(e.getCollidableEntitys(), ee.getEntityTypeID()))
+								if(Physicx.isPPIntersecting(e.getSprite().getImage(), ee.getSprite().getImage()))
+									e.handleCollision(ee);
+		
+		
 		for(int i = 0; i < entitys.size(); i++)
 		{
 			BasicEntity e = entitys.get(i);
@@ -35,17 +45,6 @@ public class EntityHandler
 			if(e.isDead())
 				entitys.remove(i);
 		}
-
-		// check collisons
-
-		for(BasicEntity e : entitys)
-			if(!e.isDead())
-				for(BasicEntity ee : entitys)
-					if(e.getCollidableEntitys() != null)
-						if(ArrayUtils.contains(e.getCollidableEntitys(), ee.getEntityTypeID()))
-							if(!ee.isDead())
-								if(Physicx.isIntersecting(e.getSprite().getImage().getBounds(), ee.getSprite().getImage().getBounds()))
-									e.handleCollision(ee);
 	}
 
 	public static void renderEntitys()

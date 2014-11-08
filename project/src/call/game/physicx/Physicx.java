@@ -1,7 +1,10 @@
 package call.game.physicx;
 
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.util.HashSet;
 
+import call.game.image.Image;
 import call.game.physicx.bounding.BoundingBox;
 
 
@@ -10,9 +13,7 @@ public class Physicx
 	public static boolean isIntersecting(Rectangle a, Rectangle b)
 	{
 		if((a.getBounds().intersects(b.getBounds()) || b.getBounds().intersects(a.getBounds())) || (a.getBounds().contains(b.getBounds()) || b.getBounds().contains(a.getBounds())))
-		{
 			return true;
-		}
 
 		return false;
 	}
@@ -27,11 +28,11 @@ public class Physicx
 		return isIntersecting(a.getBounds(), b.getBounds());
 	}
 
-	/*public static HashSet<String> createMesh(Image image)
+	public static HashSet<String> createMesh(Image image)
 	{
 		HashSet<String> mesh = new HashSet<String>();
 		
-		BufferedImage img = image.getImage();
+		BufferedImage img = image.getBackend();
 		
 		BoundingBox box = image.getBounds();
 		
@@ -57,7 +58,7 @@ public class Physicx
 	
 	public static boolean isPPIntersecting(Image a, Image b)
 	{
-		if(!isIntersecting(a.getBounds(), b.getBounds())) // collision impossable
+		if(!isIntersecting(a.getBounds(), b.getBounds()))
 			return false;
 		
 		HashSet<String> meshA = createMesh(a);
@@ -67,7 +68,4 @@ public class Physicx
 			
 		return meshA.size() > 0;
 	}
-	
-	// TODO: Redo Pixel prefect collision
-	
-*/}
+}
