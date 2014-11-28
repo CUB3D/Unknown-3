@@ -1,7 +1,9 @@
 package call.game.input.keyboard;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import call.file.api.CFile;
@@ -19,6 +21,8 @@ public class KeyBind implements KeyboardListener
 	private int realKey = -1;
 	private boolean down = false;
 
+	private List<KeyBindListener> listeners = new ArrayList<KeyBindListener>();
+
 	public KeyBind(String name, int defaultKey)
 	{
 		this.bindName = name;
@@ -34,10 +38,21 @@ public class KeyBind implements KeyboardListener
 	public void onKey(int state, int keycode)
 	{
 		if(keycode == this.defaultKey && this.realKey == -1)
-			down = (state == Keyboard.KEY_DOWN || state == Keyboard.KEY_REPEAT);
-		
+			onKeyPress(state, keycode);
+
 		if(this.realKey != -1 && keycode == this.realKey)
-			down = (state == Keyboard.KEY_DOWN || state == Keyboard.KEY_REPEAT);
+			onKeyPress(state, keycode);
+	}
+
+	private void onKeyPress(int state, int keycode)
+	{
+		down = (state == Keyboard.KEY_DOWN || state == Keyboard.KEY_REPEAT);
+
+		for(KeyBindListener kbl : listeners)
+			if(down)
+				kbl.onKeyPressed();
+			else
+				kbl.onKeyRealeased();
 	}
 
 	public void setRealKey(int realKey)
@@ -54,11 +69,17 @@ public class KeyBind implements KeyboardListener
 	{
 		return bindName;
 	}
-	
+
 	public int getRealKey()
 	{
 		return realKey;
 	}
+
+	public void registerKeybindListener(KeyBindListener kbl)
+	{
+		this.listeners.add(kbl);
+	}
+
 
 	public static void saveBinds()
 	{
