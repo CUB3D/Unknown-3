@@ -7,6 +7,7 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 
 import call.game.entitys.EntityHandler;
+import call.game.input.keyboard.KeyBind;
 
 public class RenderHelper implements GLEventListener
 {
@@ -42,6 +43,8 @@ public class RenderHelper implements GLEventListener
 		{
 			mainClassInstance = claz.newInstance();
 		}catch(Exception e) {e.printStackTrace();}
+		
+		KeyBind.loadBinds();
 	}
 
 	@Override

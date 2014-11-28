@@ -6,6 +6,7 @@ import javax.media.opengl.GL2;
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLProfile;
 
+import call.game.input.keyboard.KeyBind;
 import call.game.input.keyboard.Keyboard;
 import call.game.input.mouse.Mouse;
 import call.game.mod.CALLModLoader;
@@ -81,6 +82,7 @@ public class Unknown
 			@Override
 			public void windowDestroyNotify(WindowEvent arg0)
 			{
+				KeyBind.saveBinds();
 				System.exit(0);
 			}
 		});
