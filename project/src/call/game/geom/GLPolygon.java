@@ -1,22 +1,22 @@
 package call.game.geom;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.media.opengl.GL2;
 
 import call.game.main.Unknown;
-import call.game.utils.Vec2;
 
 public class GLPolygon
 {
-	private List<Vec2.Double> vertexes = new ArrayList<Vec2.Double>();
+	private List<Point> vertexes = new ArrayList<Point>();
 	
 	public GLPolygon() {}
 	
-	public GLPolygon(Vec2.Double[] points)
+	public GLPolygon(Point[] points)
 	{
-		for(Vec2.Double d : points)
+		for(Point d : points)
 			vertexes.add(d);
 	}
 	
@@ -29,13 +29,13 @@ public class GLPolygon
 		gl.glColor3f(1, 1, 0);
 		
 
-		for(Vec2.Double d : vertexes)
+		for(Point d : vertexes)
 			gl.glVertex2d(x + d.getX(), y + d.getY());
 		
 		gl.glEnd();
 	}
 	
-	public void addVertex(Vec2.Double vertex)
+	public void addVertex(Point vertex)
 	{
 		vertexes.add(vertex);
 	}

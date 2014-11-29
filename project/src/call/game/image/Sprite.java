@@ -10,12 +10,12 @@ public class Sprite extends BaseSprite
 		this(0, 0, i);
 	}
 	
-	public Sprite(int x, int y)
+	public Sprite(double x, double y)
 	{
 		this(x, y, null);
 	}
 	
-	public Sprite(int x, int y, Image i)
+	public Sprite(double x, double y, Image i)
 	{
 		super(x, y);
 		
@@ -25,7 +25,7 @@ public class Sprite extends BaseSprite
 	@Override
 	public void render()
 	{
-		img.render(getX(), getY());
+		img.render((int) getX(), (int) getY(), getAngle());
 	}
 	
 	@Override

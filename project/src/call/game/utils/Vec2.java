@@ -2,28 +2,6 @@ package call.game.utils;
 
 public class Vec2
 {
-	public static class Double
-	{
-		private double x;
-		private double y;
-
-		public Double(double x, double y)
-		{
-			this.x = x;
-			this.y = y;
-		}
-
-		public double getX()
-		{
-			return x;
-		}
-
-		public double getY()
-		{
-			return y;
-		}
-	}
-	
 	public static class Float
 	{
 		private float x;

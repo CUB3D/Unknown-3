@@ -10,12 +10,12 @@ public class AnimatedSprite extends BaseSprite
 		this(0, 0, i);
 	}
 	
-	public AnimatedSprite(int x, int y)
+	public AnimatedSprite(double x, double y)
 	{
 		this(x, y, null);
 	}
 	
-	public AnimatedSprite(int x, int y, Animation i)
+	public AnimatedSprite(double x, double y, Animation i)
 	{
 		super(x, y);
 		
@@ -25,12 +25,12 @@ public class AnimatedSprite extends BaseSprite
 	@Override
 	public void render()
 	{
-		ani.render(getX(), getY());
+		ani.render((int) getX(), (int) getY());
 	}
 	
 	public void renderAndAdvance()
 	{
-		ani.renderAndAdvance(getX(), getY());
+		ani.renderAndAdvance((int) getX(), (int)getY());
 	}
 	
 	public void advance()

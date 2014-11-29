@@ -71,12 +71,12 @@ public class BasicEntity
 		setHealth(0);
 	}
 
-	public int getX()
+	public double getX()
 	{
 		return this.sprite.getX();
 	}
 
-	public int getY()
+	public double getY()
 	{
 		return this.sprite.getY();
 	}
