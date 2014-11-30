@@ -22,9 +22,9 @@ public class BaseSprite
 		this.y += t.getDifY();
 	}
 	
-	public void move(int xDif, int yDif, int speed)
+	public void move(int speedX, int speedY)
 	{
-		Vec2Double velocity = new Vec2Double(direction.getX() * speed, direction.getY() * speed);
+		Vec2Double velocity = new Vec2Double(direction.getX() * speedX, direction.getY() * speedY);
 		
 		//System.out.println(velocity.getX());
 		

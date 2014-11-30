@@ -32,12 +32,7 @@ public class Vec2Double
 	
 	public double getAngleDegrees(Vec2Double v2d)
 	{
-		double d = 180.0 / Math.PI * Math.atan2(getX() - v2d.getX(), v2d.getY() - getY());
-		
-		if(d < 0)
-			d += 360;
-		
-		return d;
+		return (Math.atan2(this.getX() - v2d.getX(), this.getY() - v2d.getY()) * 180 / Math.PI) + 90;
 	}
 	
 	public double getX()

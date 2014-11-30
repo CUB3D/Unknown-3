@@ -115,7 +115,7 @@ public class Unknown
 		int tps = settings.getTps();
 		int fps = settings.getFps();
 		
-		System.out.println("width" + width);
+		//System.out.println("width" + width);
 
 		setScreenSize(new Dimension(width, width));
 

@@ -82,7 +82,7 @@ public class Mouse implements com.jogamp.newt.event.MouseListener
 	
 	public static Point getPixelLocation()
 	{
-		return new Point(x, 0 - y);
+		return new Point(x, 0 - y + 490);
 	}
 
 	public static BoundingBox getBounds()
