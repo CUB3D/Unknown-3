@@ -1,6 +1,9 @@
 package call.game.main;
 
 import java.awt.Dimension;
+import java.io.File;
+import java.lang.annotation.Annotation;
+import java.util.logging.Logger;
 
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLCapabilities;
@@ -10,6 +13,8 @@ import call.game.input.keyboard.KeyBind;
 import call.game.input.keyboard.Keyboard;
 import call.game.input.mouse.Mouse;
 import call.game.mod.CALLModLoader;
+import call.game.mod.ModDiscoverer;
+import call.game.mod.ModEntry;
 
 import com.jogamp.newt.event.WindowEvent;
 import com.jogamp.newt.event.WindowListener;
@@ -20,17 +25,51 @@ import com.jogamp.opengl.util.FPSAnimator;
 public class Unknown
 {
 	private static GLProfile profile;
-	
+
 	private static Dimension screenSize;
 
 	private static GL2 gl;
 
 	private static Keyboard keyboard;
 	private static Mouse mouse;
-	
+
+	private static Logger logger = Logger.getLogger("UNKNOWN-CORE");
+
 	public static void main(String[] args)
 	{
-		//TODO load jar file
+		GameSettings settings = new GameSettings();
+
+		ModEntry game = ModDiscoverer.loadMod(new File("core\\Game.jar"), new File("core"));
+
+		Class<?> clazz = null;
+
+		for(Class<?> claz : game.getClasses())
+		{
+			Annotation[] anos = claz.getAnnotations();
+
+			for(int i = 0;i < anos.length;i++)
+			{
+				Class<?>[] interfaces = anos[i].getClass().getInterfaces();
+
+				for(int i2 = 0; i2 < interfaces.length; i2++)
+				{
+					System.out.println(interfaces[i2].getSimpleName());
+					if(interfaces[i2].getSimpleName().equals("Define"))
+						clazz = claz;
+				}
+			}
+		}
+
+		if(clazz == null)
+			clazz = game.getClassWithAnnotation(Define.class);
+
+		if(clazz == null)
+		{
+			logger.warning("No Game.jar present");
+			System.exit(-1);
+		}
+
+		init(clazz, settings);
 	}
 
 	public static void init(Class<?> clazz, GameSettings settings)
@@ -52,10 +91,10 @@ public class Unknown
 		// create JOGL frame
 		GLWindow window = GLWindow.create(caps);
 		window.setSize(width, height);
-		
+
 		window.addKeyListener(Unknown.getKeyboard());
 		window.addMouseListener(Unknown.getMouse());
-	
+
 		window.setTitle(title);
 		window.setVisible(true);
 
@@ -114,7 +153,7 @@ public class Unknown
 	{
 		return gl;
 	}
-	
+
 	public static GLProfile getGLProfile()
 	{
 		return profile;
@@ -127,12 +166,12 @@ public class Unknown
 
 		return keyboard;
 	}
-	
+
 	public static Mouse getMouse()
 	{
 		if(mouse == null)
 			Unknown.mouse = new Mouse();
-		
+
 		return mouse;
 	}
 }

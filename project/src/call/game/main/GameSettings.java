@@ -9,6 +9,11 @@ public class GameSettings
 	private int tps;
 	private int fps;
 	
+	public GameSettings()
+	{
+		this(10, 10);
+	}
+	
 	public GameSettings(int width, int heigth)
 	{
 		this(width, heigth, "");

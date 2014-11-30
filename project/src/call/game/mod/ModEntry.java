@@ -109,6 +109,11 @@ public class ModEntry
 
 		return null;
 	}
+	
+	public List<Class<?>> getClasses()
+	{
+		return classes;
+	}
 
 	public List<Class<?>> getClassesWithAnnotation(Class<? extends Annotation> ano)
 	{
