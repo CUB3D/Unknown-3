@@ -172,6 +172,16 @@ public class Image
 	{
 		return backend;
 	}
+	
+	public int getWidth()
+	{
+		return backend.getWidth();
+	}
+	
+	public int getHeight()
+	{
+		return backend.getHeight();
+	}
 
 	@Override
 	public Object clone()
