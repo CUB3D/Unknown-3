@@ -1,10 +1,17 @@
 package call.game.utils;
 
+import java.awt.Point;
+
 public class Vec2Double
 {
 	private double x;
 	private double y;
 
+	public Vec2Double(Point p)
+	{
+		this(p.x, p.y);
+	}
+	
 	public Vec2Double(double x, double y)
 	{
 		this.x = x;
