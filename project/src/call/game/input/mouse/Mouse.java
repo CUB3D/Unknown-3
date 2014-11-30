@@ -1,12 +1,12 @@
 package call.game.input.mouse;
 
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
 import call.game.physicx.Physicx;
 import call.game.physicx.bounding.BoundingBox;
-import call.game.utils.Vec2;
 
 import com.jogamp.newt.event.MouseEvent;
 
@@ -75,14 +75,14 @@ public class Mouse implements com.jogamp.newt.event.MouseListener
 			ml.onMove(x, y);
 	}
 
-	public static Vec2.Integer getLocation()
+	public static Point getLocation()
 	{
-		return new Vec2.Integer(x, y);
+		return new Point(x, y);
 	}
 	
-	public static Vec2.Integer getPixelLocation()
+	public static Point getPixelLocation()
 	{
-		return new Vec2.Integer(x, 0 - y);
+		return new Point(x, 0 - y);
 	}
 
 	public static BoundingBox getBounds()

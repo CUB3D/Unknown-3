@@ -23,6 +23,23 @@ public class Vec2Double
 		return new Vec2Double(x / len, y / len);
 	}
 	
+	public double getAngleRadians(Vec2Double v2d)
+	{
+	    double angle = Math.atan2(v2d.y - y, v2d.x - x);
+
+	    return angle;
+	}
+	
+	public double getAngleDegrees(Vec2Double v2d)
+	{
+		double degs = Math.toDegrees(getAngleRadians(v2d));
+		
+		if(degs < 0)
+			degs += 360;
+		
+		return degs;
+	}
+	
 	public double getX()
 	{
 		return x;
