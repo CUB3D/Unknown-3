@@ -9,6 +9,8 @@ import javax.media.opengl.GL2;
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLProfile;
 
+import call.file.api.CFile;
+import call.file.layout.Element;
 import call.game.input.keyboard.KeyBind;
 import call.game.input.keyboard.Keyboard;
 import call.game.input.mouse.Mouse;
@@ -37,8 +39,6 @@ public class Unknown
 
 	public static void main(String[] args)
 	{
-		GameSettings settings = new GameSettings();
-
 		ModEntry game = ModDiscoverer.loadMod(new File("core\\Game.jar"), new File("core"));
 
 		Class<?> clazz = null;
@@ -69,6 +69,36 @@ public class Unknown
 			System.exit(-1);
 		}
 
+		init(clazz);
+	}
+
+	public static void init(Class<?> clazz)
+	{
+		GameSettings settings = new GameSettings();
+		
+		File f = new File("GameInfo.call");
+		
+		if(f.exists())
+		{
+			CFile cf = new CFile(f);
+			
+			Element window = cf.getElementByName("Window");
+			
+			settings.setWidth(window.getValue("Width").getInt(0));
+			settings.setHeight(window.getValue("Height").getInt(0));
+			settings.setTitle(window.getValue("Title").getValue("A Unknown 3.0 game"));
+			
+			Element game = cf.getElementByName("Game");
+			
+			settings.setFps(game.getValue("MaxFPS").getInt(120));
+			settings.setTps(game.getValue("MaxTPS").getInt(60));
+		}
+		else
+		{
+			logger.warning("No GameInfo.call, game cannot be loaded");
+			System.exit(-2);
+		}
+		
 		init(clazz, settings);
 	}
 
@@ -77,11 +107,15 @@ public class Unknown
 		// load mods
 		CALLModLoader.getInstance();
 
+		
+		
 		int width = settings.getWidth();
 		int height = settings.getHeight();
 		String title = settings.getTitle();
 		int tps = settings.getTps();
 		int fps = settings.getFps();
+		
+		System.out.println("width" + width);
 
 		setScreenSize(new Dimension(width, width));
 
