@@ -43,7 +43,7 @@ public class RenderHelper implements GLEventListener
 		{
 			mainClassInstance = claz.newInstance();
 		}catch(Exception e) {e.printStackTrace();}
-		
+
 		KeyBind.loadBinds();
 	}
 
@@ -83,24 +83,28 @@ public class RenderHelper implements GLEventListener
 				update.invoke(mainClassInstance, (Object[]) null);
 			}catch(Exception e) {e.printStackTrace();}
 		}
-		
+
 		EntityHandler.updateEntitys();
 	}
 
 	public void render(GLAutoDrawable draw)
 	{
+		GL2 gl = draw.getGL().getGL2();
+
+		if(gl == null)
+			return;
+
+		Unknown.setGL(gl);
+
+
 		if(render != null)
 		{
-			GL2 gl = draw.getGL().getGL2();
-
-			Unknown.setGL(gl);
-
 			try
 			{
 				render.invoke(mainClassInstance, (Object[]) null);
 			}catch(Exception e) {e.printStackTrace();}
 		}
-		
+
 		EntityHandler.renderEntitys();
 	}
 

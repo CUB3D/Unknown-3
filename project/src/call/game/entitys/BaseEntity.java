@@ -9,6 +9,8 @@ public class BaseEntity
 
 	protected int health;
 	
+	public BaseEntity() {}
+	
 	public BaseEntity(BaseSprite s)
 	{
 		this.sprite = s;
