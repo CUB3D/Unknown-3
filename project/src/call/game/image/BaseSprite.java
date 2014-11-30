@@ -26,7 +26,7 @@ public class BaseSprite
 	{
 		Vec2Double velocity = new Vec2Double(direction.getX() * speed, direction.getY() * speed);
 		
-		System.out.println(velocity.getX());
+		//System.out.println(velocity.getX());
 		
 		this.x += velocity.getX();
 		this.y += velocity.getY();

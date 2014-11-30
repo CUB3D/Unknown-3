@@ -30,21 +30,14 @@ public class Vec2Double
 		return new Vec2Double(x / len, y / len);
 	}
 	
-	public double getAngleRadians(Vec2Double v2d)
-	{
-	    double angle = Math.atan2(v2d.y - y, v2d.x - x);
-
-	    return angle;
-	}
-	
 	public double getAngleDegrees(Vec2Double v2d)
 	{
-		double degs = Math.toDegrees(getAngleRadians(v2d));
+		double d = 180.0 / Math.PI * Math.atan2(getX() - v2d.getX(), v2d.getY() - getY());
 		
-		if(degs < 0)
-			degs += 360;
+		if(d < 0)
+			d += 360;
 		
-		return degs;
+		return d;
 	}
 	
 	public double getX()
