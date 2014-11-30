@@ -8,11 +8,11 @@ import call.utils.ArrayUtils;
 
 public class EntityHandler
 {
-	private static List<BasicEntity> entitys = new ArrayList<BasicEntity>();
+	private static List<BaseEntity> entitys = new ArrayList<BaseEntity>();
 
 	private EntityHandler() {}
 
-	public static void registerEntity(BasicEntity e)
+	public static void registerEntity(BaseEntity e)
 	{
 		entitys.add(e);
 		e.setHealth(e.getMaxHealth());
@@ -22,25 +22,26 @@ public class EntityHandler
 	{
 		for(int i = 0; i < entitys.size(); i++)
 		{
-			BasicEntity e = entitys.get(i);
+			BaseEntity e = entitys.get(i);
 
 			if(!e.isDead())
 				e.update();
 		}
 
-		for(BasicEntity e : entitys)
-			if(!e.isDead())
-				for(BasicEntity ee : entitys)
-					if(!ee.isDead())
-						if(e.getCollidableEntitys() != null)
-							if(ArrayUtils.contains(e.getCollidableEntitys(), ee.getEntityTypeID()))
-								if(Physicx.isPPIntersecting(e.getSprite().getImage(), ee.getSprite().getImage()))
-									e.handleCollision(ee);
-		
-		
+		for(BaseEntity e : entitys) // go through all entities
+			if(!e.isDead()) // make sure entity is not dead
+				for(BaseEntity ee : entitys) // go through all entities again
+					if(!ee.isDead()) // make sure entity is not dead
+						if(!ee.equals(e)) // don't check for collision with self
+							if(e.getCollidableEntitys() != null) // check to see if the first entity can actually collide with anything
+								if(ArrayUtils.contains(e.getCollidableEntitys(), ee.getEntityID()))
+									if(Physicx.isPPIntersecting(e.getSprite().getImage(), ee.getSprite().getImage()))
+										e.handleCollision(ee);
+
+
 		for(int i = 0; i < entitys.size(); i++)
 		{
-			BasicEntity e = entitys.get(i);
+			BaseEntity e = entitys.get(i);
 
 			if(e.isDead())
 				entitys.remove(i);
@@ -49,12 +50,12 @@ public class EntityHandler
 
 	public static void renderEntitys()
 	{
-		for(BasicEntity e : entitys)
+		for(BaseEntity e : entitys)
 			if(!e.isDead())
 				e.render();
 	}
 
-	public static List<BasicEntity> getEntitys()
+	public static List<BaseEntity> getEntitys()
 	{
 		return entitys;
 	}

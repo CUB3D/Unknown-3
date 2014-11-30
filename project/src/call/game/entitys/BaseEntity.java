@@ -3,18 +3,15 @@ package call.game.entitys;
 import call.game.image.BaseSprite;
 import call.game.image.Sprite;
 
-public class BasicEntity
+public class BaseEntity
 {
 	public BaseSprite sprite;
 
 	protected int health;
-
-	public int id;
-
-	public BasicEntity(BaseSprite s, int id)
+	
+	public BaseEntity(BaseSprite s)
 	{
 		this.sprite = s;
-		this.id = id;
 	}
 
 	public void update()
@@ -26,7 +23,7 @@ public class BasicEntity
 		sprite.render();
 	}
 	
-	public void handleCollision(BasicEntity e)
+	public void handleCollision(BaseEntity e)
 	{
 		
 	}
@@ -36,12 +33,12 @@ public class BasicEntity
 		setHealth(getHeath() - dmg);
 	}
 
-	public int getEntityTypeID()
+	public String getEntityID()
 	{
-		return this.id;
+		return null;
 	}
 	
-	public int[] getCollidableEntitys()
+	public String[] getCollidableEntitys()
 	{
 		return null;
 	}
@@ -86,9 +83,14 @@ public class BasicEntity
 		return this.sprite;
 	}
 	
+	public void setSprite(BaseSprite sprite)
+	{
+		this.sprite = sprite;
+	}
+	
 	@Override
 	public Object clone()
 	{
-		return new BasicEntity((Sprite) getSprite().clone(), getEntityTypeID());
+		return new BaseEntity((Sprite) getSprite().clone());
 	}
 }

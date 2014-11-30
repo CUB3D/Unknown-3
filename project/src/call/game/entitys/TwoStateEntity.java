@@ -2,13 +2,13 @@ package call.game.entitys;
 
 import call.game.image.Sprite;
 
-public class TwoStateEntity extends BasicEntity
+public class TwoStateEntity extends BaseEntity
 {
 	protected boolean alive;
 	
-	public TwoStateEntity(Sprite s, int id)
+	public TwoStateEntity(Sprite s)
 	{
-		super(s, id);
+		super(s);
 	}
 	
 	@Override
