@@ -47,6 +47,8 @@ public class KeyBind implements KeyboardListener
 	private void onKeyPress(int state, int keycode)
 	{
 		down = (state == Keyboard.KEY_DOWN || state == Keyboard.KEY_REPEAT);
+		
+		System.out.println(down);
 
 		for(KeyBindListener kbl : listeners)
 			if(down)

@@ -57,7 +57,7 @@ public class Image
 	{
 		this.render(x, y, 0);
 	}
-	
+
 	public void render(int x, int y, double angle)
 	{
 		if(!hasInit)
@@ -68,23 +68,19 @@ public class Image
 
 		GL2 gl = Unknown.getGL();
 
-		gl.glPushMatrix();
-
 		text.enable(gl);
 		text.bind(gl);
 
 		text.setTexParameteri(gl, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_NEAREST);
 
-		if(angle != 0)
-		{
-			gl.glMatrixMode(GL2.GL_TEXTURE);
-			gl.glLoadIdentity();
-			gl.glTranslated(0.5, 0.5, 0);
-			gl.glRotated(angle, 0, 0, 1.0);
-			gl.glTranslated(-0.5, -0.5, 0);
-			gl.glMatrixMode(GL2.GL_MODELVIEW);
-		}
-		
+
+		gl.glMatrixMode(GL2.GL_TEXTURE);
+		gl.glLoadIdentity();
+		gl.glTranslated(0.5, 0.5, 0);
+		gl.glRotated(angle, 0, 0, 1.0);
+		gl.glTranslated(-0.5, -0.5, 0);
+		gl.glMatrixMode(GL2.GL_MODELVIEW);
+
 		gl.glColor3f(1, 1, 1);
 
 		gl.glBegin(GL2.GL_QUADS);
@@ -154,8 +150,6 @@ public class Image
 				}
 
 		gl.glEnd();
-
-		gl.glPopMatrix();
 	}
 
 	public void setFlipType(int flip)
@@ -167,17 +161,17 @@ public class Image
 	{
 		return bounds;
 	}
-	
+
 	public BufferedImage getBackend()
 	{
 		return backend;
 	}
-	
+
 	public int getWidth()
 	{
 		return backend.getWidth();
 	}
-	
+
 	public int getHeight()
 	{
 		return backend.getHeight();

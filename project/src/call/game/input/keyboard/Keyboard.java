@@ -26,14 +26,14 @@ public class Keyboard implements KeyListener
 	{
 		if(e.isAutoRepeat())
 		{
-			for(KeyboardListener kl : listeners)
-				kl.onKey(KEY_REPEAT, e.getKeyCode());
+			for(int i = 0; i < listeners.size(); i++)
+				listeners.get(i).onKey(KEY_REPEAT, e.getKeyCode());
 		}
 		
 		EventHelper.sendEventToAll(new KeyTypedEvent(e.getKeyCode(), KEY_DOWN));
-
-		for(KeyboardListener kl : listeners)
-			kl.onKey(KEY_DOWN, e.getKeyCode());
+		
+		for(int i = 0; i < listeners.size(); i++)
+			listeners.get(i).onKey(KEY_DOWN, e.getKeyCode());
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class Keyboard implements KeyListener
 		
 		EventHelper.sendEventToAll(new KeyTypedEvent(e.getKeyCode(), KEY_UP));
 
-		for(KeyboardListener kl : listeners)
-			kl.onKey(KEY_UP, e.getKeyCode());
+		for(int i = 0; i < listeners.size(); i++)
+			listeners.get(i).onKey(KEY_UP, e.getKeyCode());
 	}
 }
