@@ -58,8 +58,8 @@ public class Physicx
 	
 	public static boolean isPPIntersecting(Image a, Image b)
 	{
-		if(!isIntersecting(a.getBounds(), b.getBounds()))
-			return false;
+	//	if(!isIntersecting(a.getBounds(), b.getBounds()))
+		//	return false;
 		
 		HashSet<String> meshA = createMesh(a);
 		HashSet<String> meshB = createMesh(b);

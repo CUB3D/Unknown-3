@@ -6,8 +6,6 @@ import call.game.image.Sprite;
 public class BaseEntity
 {
 	public BaseSprite sprite;
-
-	protected int health;
 	
 	public BaseEntity() {}
 	
@@ -30,10 +28,7 @@ public class BaseEntity
 		
 	}
 	
-	public void damage(int dmg)
-	{
-		setHealth(getHeath() - dmg);
-	}
+	public void damage(int dmg) {}
 
 	public String getEntityID()
 	{
@@ -45,30 +40,16 @@ public class BaseEntity
 		return null;
 	}
 
-	public int getMaxHealth()
-	{
-		return 0;
-	}
-
-	public int getHeath()
-	{
-		return this.health;
-	}
-
-	public void setHealth(int newHealth)
-	{
-		this.health = newHealth;
-	}
-
 	public boolean isDead()
 	{
-		return this.health <= 0;
+		return true;
 	}
 
-	public void kill()
-	{
-		setHealth(0);
-	}
+	public void kill() {}
+	
+	public double getHealth() {return 0;}
+	
+	public void setHealth(double health) {}
 
 	public double getX()
 	{
