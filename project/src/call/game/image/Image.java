@@ -26,6 +26,8 @@ public class Image
 	private BufferedImage backend;
 
 	private boolean hasInit;
+	
+	private float scale = 1;
 
 
 	public Image(String s)
@@ -47,9 +49,9 @@ public class Image
 		this.backend = op.filter(backend, null);
 
 		text = AWTTextureIO.newTexture(Unknown.getGLProfile(), backend, false);
-
-		bounds = new BoundingBox(0, 0, text.getImageWidth(), text.getImageHeight());
-
+		
+		bounds = new BoundingBox(0, 0, text.getWidth() * scale, text.getHeight() * scale);
+		
 		hasInit = true;
 	}
 
@@ -77,7 +79,7 @@ public class Image
 		gl.glMatrixMode(GL2.GL_TEXTURE);
 		gl.glLoadIdentity();
 		gl.glTranslated(0.5, 0.5, 0);
-		gl.glRotated(angle, 0, 0, 1.0);
+		gl.glRotated(angle + 90, 0, 0, 1.0);
 		gl.glTranslated(-0.5, -0.5, 0);
 		gl.glMatrixMode(GL2.GL_MODELVIEW);
 
@@ -85,10 +87,8 @@ public class Image
 
 		gl.glBegin(GL2.GL_QUADS);
 
-		float scale = text.getAspectRatio();
-
-		float width = text.getImageWidth() / scale;
-		float height = text.getImageHeight() / scale;
+		float width = text.getImageWidth() * scale;
+		float height = text.getImageHeight() * scale;
 
 		if((flipData | FLIP_X) == FLIP_X && (flipData | FLIP_Y) == FLIP_Y)
 		{
@@ -136,17 +136,17 @@ public class Image
 				}
 				else
 				{	
-					gl.glTexCoord2f(0, 0);
-					gl.glVertex2f(x, y);
+					gl.glTexCoord2d(0, 0);
+					gl.glVertex2d(x, y);
 
-					gl.glTexCoord2f(0, 1);
-					gl.glVertex2f(x, y + height);
+					gl.glTexCoord2d(0, 1);
+					gl.glVertex2d(x, y + height);
 
-					gl.glTexCoord2f(1, 1);
-					gl.glVertex2f(x + width, y + height);
+					gl.glTexCoord2d(1, 1);
+					gl.glVertex2d(x + width, y + height);
 
-					gl.glTexCoord2f(1, 0);
-					gl.glVertex2f(x + width, y);
+					gl.glTexCoord2d(1, 0);
+					gl.glVertex2d(x + width, y);
 				}
 
 		gl.glEnd();
@@ -177,6 +177,17 @@ public class Image
 		return backend.getHeight();
 	}
 
+	public void setScale(float scale)
+	{
+		this.scale = scale;
+		hasInit = false;
+	}
+	
+	public float getScale()
+	{
+		return scale;
+	}
+	
 	@Override
 	public Object clone()
 	{

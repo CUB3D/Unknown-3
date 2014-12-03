@@ -28,9 +28,9 @@ public class BaseSprite
 		
 		
 		if(direction.getX() == 0 && direction.getY() == 0)
-		{
 			velocity = new Vec2Double(speedX, speedY);
-		}
+		
+		System.out.println("AAAA X: " + direction.getX() + "   Y:" + direction.getY());
 		
 		this.x += velocity.getX();
 		this.y += velocity.getY();
@@ -66,13 +66,15 @@ public class BaseSprite
 	
 	public void setAngle(double angle)
 	{
-		this.angle = angle;
+		this.angle = angle - 90;
 		
-		direction.setX((float) Math.cos(Math.toRadians(angle)));
-		direction.setY((float) Math.sin(Math.toRadians(angle)));
+		direction.setX(Math.cos(Math.toRadians(this.angle)));
+		direction.setY(Math.sin(Math.toRadians(this.angle)));
 		
-		if (direction.getLength() > 0)
+		if (direction.getLength() < 0)
 		    direction = direction.normalise();
+		
+		System.out.println("X: " + direction.getX() + "   Y:" + direction.getY());
 	}
 	
 	@Override
