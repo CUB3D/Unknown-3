@@ -4,41 +4,41 @@ import java.awt.Rectangle;
 
 public class BoundingBox
 {
-	public int x;
-	public int y;
-	public int width;
-	public int height;
+	public double x;
+	public double y;
+	public double width;
+	public double height;
 
-	public BoundingBox(int x, int y, int width, int height)
+	public BoundingBox(double x, double y, double f, double g)
 	{
 		this.x = x;
 		this.y = y;
-		this.width = width;
-		this.height = height;
+		this.width = f;
+		this.height = g;
 	}
 
-	public int getX()
+	public double getX()
 	{
 		return x;
 	}
 
-	public int getY()
+	public double getY()
 	{
 		return y;
 	}
 
-	public int getWidth()
+	public double getWidth()
 	{
 		return width;
 	}
 
-	public int getHeight()
+	public double getHeight()
 	{
 		return height;
 	}
 
 	public Rectangle getBounds()
 	{
-		return new Rectangle(x, y, width, height);
+		return new Rectangle((int) x, (int) y, (int) width, (int) height);
 	}
 }

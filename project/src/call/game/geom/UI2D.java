@@ -69,10 +69,10 @@ public class UI2D
 		gl.glEnd();
 	}
 	
-	public static void line(double x, double y, double x2, double y2, float width, int col)
+	public static void line(double x1, double y1, double x2, double y2, float width, int col)
 	{
 		GL2 gl = Unknown.getGL();
-		
+
 		int blue = (col >> 0) & 0xFF;
 		int green = (col >> 8) & 0xFF;
 		int red = (col >> 16) & 0xFF;
@@ -83,8 +83,8 @@ public class UI2D
 		gl.glLineWidth(width);
 		
 		gl.glColor4f(red / 255, green / 255, blue / 255, alpha / 255);
-		
-		gl.glVertex2d(x, y);
+
+		gl.glVertex2d(x1, y1);
 		gl.glVertex2d(x2, y2);
 		
 		gl.glEnd();

@@ -7,7 +7,9 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 
 import call.game.entitys.EntityHandler;
+import call.game.entitys.particle.ParticleHandler;
 import call.game.input.keyboard.KeyBind;
+import call.game.mod.GameRegistery;
 
 public class RenderHelper implements GLEventListener
 {
@@ -68,6 +70,10 @@ public class RenderHelper implements GLEventListener
 		if(System.currentTimeMillis() - timer > 1000)
 		{
 			timer = System.currentTimeMillis();
+			
+			Unknown.setFPS(frames);
+			Unknown.setTPS(ticks);
+			
 			System.out.println("FPS: " + frames + ", TPS: " + ticks);
 			frames = 0;
 			ticks = 0;
@@ -76,6 +82,8 @@ public class RenderHelper implements GLEventListener
 
 	public void tick()
 	{
+		GameRegistery.getInstance().onTickStart();
+		
 		if(update != null)
 		{
 			try
@@ -83,8 +91,11 @@ public class RenderHelper implements GLEventListener
 				update.invoke(mainClassInstance, (Object[]) null);
 			}catch(Exception e) {e.printStackTrace();}
 		}
-
+		
 		EntityHandler.updateEntitys();
+		ParticleHandler.updateParticles();
+		
+		GameRegistery.getInstance().onTickEnd();
 	}
 
 	public void render(GLAutoDrawable draw)
@@ -106,6 +117,9 @@ public class RenderHelper implements GLEventListener
 		}
 
 		EntityHandler.renderEntitys();
+		ParticleHandler.renderParticles();
+		
+		GameRegistery.getInstance().onRender();
 	}
 
 	public void initTextures()

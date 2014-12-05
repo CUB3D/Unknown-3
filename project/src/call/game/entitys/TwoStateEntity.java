@@ -4,7 +4,7 @@ import call.game.image.Sprite;
 
 public class TwoStateEntity extends BaseEntity
 {
-	protected boolean alive;
+	protected boolean alive = true;
 	
 	public TwoStateEntity(Sprite s)
 	{
@@ -12,26 +12,20 @@ public class TwoStateEntity extends BaseEntity
 	}
 	
 	@Override
-	public int getHeath()
-	{
-		return this.alive ? 1 : 0;
-	}
-	
-	@Override
-	public int getMaxHealth()
-	{
-		return 1;
-	}
-	
-	@Override
-	public void setHealth(int newHealth)
-	{
-		this.alive = (newHealth == 1 ? true : false);
-	}
-	
-	@Override
 	public boolean isDead()
 	{
 		return !this.alive;
+	}
+	
+	@Override
+	public double getHealth()
+	{
+		return alive ? 1 : 0;
+	}
+	
+	@Override
+	public void setHealth(double health)
+	{
+		alive = (health == 1 ? true : false);
 	}
 }

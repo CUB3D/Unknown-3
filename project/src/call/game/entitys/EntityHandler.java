@@ -15,7 +15,6 @@ public class EntityHandler
 	public static void registerEntity(BaseEntity e)
 	{
 		entitys.add(e);
-		e.setHealth(e.getMaxHealth());
 	}
 
 	public static void updateEntitys()

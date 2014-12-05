@@ -25,6 +25,9 @@ public class Physicx
 
 	public static boolean isIntersecting(BoundingBox a, BoundingBox b)
 	{
+		if(a == null || b == null)
+			return false;
+		
 		return isIntersecting(a.getBounds(), b.getBounds());
 	}
 
@@ -36,6 +39,9 @@ public class Physicx
 		
 		BoundingBox box = image.getBounds();
 		
+		if(box == null)
+			return mesh;
+		
 		for(int x = 0; x < img.getWidth(); x++)
 		{
 			for(int y = 0; y < img.getHeight(); y++)
@@ -46,8 +52,8 @@ public class Physicx
 				
 				if(alpha > 0)
 				{
-					int abX = (box.getX() + x);
-					int abY = (box.getY() - y);
+					int abX = (int) (box.getX() + x);
+					int abY = (int) (box.getY() + y);
 					mesh.add("" + abX + "," + abY);
 				}
 			}
@@ -57,7 +63,7 @@ public class Physicx
 	}
 	
 	public static boolean isPPIntersecting(Image a, Image b)
-	{
+	{	
 		if(!isIntersecting(a.getBounds(), b.getBounds()))
 			return false;
 		

@@ -14,6 +14,8 @@ public class BaseSprite
 	{
 		this.x = x;
 		this.y = y;
+		
+		setAngle(0);
 	}
 	
 	public void translate(Translate t)
@@ -26,12 +28,11 @@ public class BaseSprite
 	{
 		Vec2Double velocity = new Vec2Double(direction.getX() * speedX, direction.getY() * speedY);
 		
-		System.out.println("X: " + direction.getX() + ", Y: " + direction.getY());
 		
 		if(direction.getX() == 0 && direction.getY() == 0)
-		{
 			velocity = new Vec2Double(speedX, speedY);
-		}
+		
+		System.out.println("AAAA X: " + direction.getX() + "   Y:" + direction.getY());
 		
 		this.x += velocity.getX();
 		this.y += velocity.getY();
@@ -69,10 +70,10 @@ public class BaseSprite
 	{
 		this.angle = angle;
 		
-		direction.setX((float) Math.cos(Math.toRadians(angle)));
-		direction.setY((float) Math.sin(Math.toRadians(angle)));
+		direction.setX(Math.cos(Math.toRadians(this.angle - 90)));
+		direction.setY(Math.sin(Math.toRadians(this.angle - 90)));
 		
-		if (direction.getLength() > 0)
+		if (direction.getLength() < 0)
 		    direction = direction.normalise();
 	}
 	
