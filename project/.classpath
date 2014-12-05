@@ -2,9 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/jogl-2.0"/>
 	<classpathentry kind="lib" path="E:/Development/Programing/Java/Lib&apos;s/Utils.jar"/>
 	<classpathentry kind="lib" path="E:/Development/Programing/Java/Lib&apos;s/FileAPI.jar"/>
 	<classpathentry kind="lib" path="E:/Development/Programing/Java/Lib&apos;s/Mappy.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jogl-2.0"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

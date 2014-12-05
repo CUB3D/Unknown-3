@@ -15,7 +15,7 @@ public class Mouse implements com.jogamp.newt.event.MouseListener
 	public static final int STATE_CLICKED = 0;
 	public static final int STATE_MOUSE_DOWN = 1;
 	public static final int STATE_MOUSE_UP = 2;
-	
+
 	private static int x;
 	private static int y;
 	private List<MouseListener> listeners = new ArrayList<MouseListener>();
@@ -32,26 +32,42 @@ public class Mouse implements com.jogamp.newt.event.MouseListener
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e)
+	{
+		x = e.getX();
+		y = e.getY();
+	}
 
 	@Override
-	public void mouseExited(MouseEvent e) {}
+	public void mouseExited(MouseEvent e)
+	{
+		x = e.getX();
+		y = e.getY();
+	}
 
 	@Override
-	public void mouseDragged(MouseEvent arg0) {}
-	
+	public void mouseDragged(MouseEvent e)
+	{
+		x = e.getX();
+		y = e.getY();
+	}
+
 	@Override
 	public void mouseClicked(MouseEvent e)
 	{
-		int x = e.getX(), y = e.getY();
+		x = e.getX();
+		y = e.getY();
+		
 		for(MouseListener ml : listeners)
 			ml.onClick(x, y, STATE_CLICKED, e.getButton());
 	}
-	
+
 	@Override
 	public void mousePressed(MouseEvent e)
 	{
-		int x = e.getX(), y = e.getY();
+		x = e.getX();
+		y = e.getY();
+		
 		for(MouseListener ml : listeners)
 			ml.onClick(x, y, STATE_MOUSE_DOWN, e.getButton());
 	}
@@ -60,7 +76,9 @@ public class Mouse implements com.jogamp.newt.event.MouseListener
 	@Override
 	public void mouseReleased(MouseEvent e)
 	{
-		int x = e.getX(), y = e.getY();
+		x = e.getX();
+		y = e.getY();
+
 		for(MouseListener ml : listeners)
 			ml.onClick(x, y, STATE_MOUSE_UP, e.getButton());
 	}
@@ -70,7 +88,7 @@ public class Mouse implements com.jogamp.newt.event.MouseListener
 	{
 		x = arg0.getX();
 		y = arg0.getY();
-		
+
 		for(MouseListener ml : listeners)
 			ml.onMove(x, y);
 	}
@@ -79,7 +97,7 @@ public class Mouse implements com.jogamp.newt.event.MouseListener
 	{
 		return new Point(x, y);
 	}
-	
+
 	public static Point getPixelLocation()
 	{
 		return new Point(x, 0 - y + 490);
@@ -89,12 +107,12 @@ public class Mouse implements com.jogamp.newt.event.MouseListener
 	{
 		return new BoundingBox(x, y, 5, 5);
 	}
-	
+
 	public static boolean isTouching(Rectangle b)
 	{
 		return Physicx.isIntersecting(b, getBounds());
 	}
-	
+
 	public static boolean isTouching(BoundingBox b)
 	{
 		return isTouching(b.getBounds());

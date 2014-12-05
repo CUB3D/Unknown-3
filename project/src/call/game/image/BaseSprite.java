@@ -26,13 +26,11 @@ public class BaseSprite
 	
 	public void move(int speedX, int speedY)
 	{
-		Vec2Double velocity = new Vec2Double(direction.getX() * speedX, direction.getY() * speedY);
+		Vec2Double velocity = new Vec2Double(direction.getX() * speedX, direction.getY() * -speedY);
 		
 		
 		if(direction.getX() == 0 && direction.getY() == 0)
 			velocity = new Vec2Double(speedX, speedY);
-		
-		System.out.println("AAAA X: " + direction.getX() + "   Y:" + direction.getY());
 		
 		this.x += velocity.getX();
 		this.y += velocity.getY();

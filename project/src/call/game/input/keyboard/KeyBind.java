@@ -46,13 +46,21 @@ public class KeyBind implements KeyboardListener
 
 	private void onKeyPress(int state, int keycode)
 	{
-		down = (state == Keyboard.KEY_DOWN || state == Keyboard.KEY_REPEAT);
-
-		for(KeyBindListener kbl : listeners)
-			if(down)
+		if(state == Keyboard.KEY_DOWN)
+		{
+			for(KeyBindListener kbl : listeners)
 				kbl.onKeyPressed();
-			else
+
+			down = true;
+		}
+
+		if(state == Keyboard.KEY_UP)
+		{
+			for(KeyBindListener kbl : listeners)
 				kbl.onKeyRealeased();
+
+			down = false;
+		}
 	}
 
 	public void setRealKey(int realKey)
