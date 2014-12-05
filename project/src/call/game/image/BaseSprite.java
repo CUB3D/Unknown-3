@@ -14,6 +14,8 @@ public class BaseSprite
 	{
 		this.x = x;
 		this.y = y;
+		
+		setAngle(0);
 	}
 	
 	public void translate(Translate t)
@@ -66,15 +68,13 @@ public class BaseSprite
 	
 	public void setAngle(double angle)
 	{
-		this.angle = angle - 90;
+		this.angle = angle;
 		
-		direction.setX(Math.cos(Math.toRadians(this.angle)));
-		direction.setY(Math.sin(Math.toRadians(this.angle)));
+		direction.setX(Math.cos(Math.toRadians(this.angle - 90)));
+		direction.setY(Math.sin(Math.toRadians(this.angle - 90)));
 		
 		if (direction.getLength() < 0)
 		    direction = direction.normalise();
-		
-		System.out.println("X: " + direction.getX() + "   Y:" + direction.getY());
 	}
 	
 	@Override

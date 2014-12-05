@@ -34,6 +34,9 @@ public class Unknown
 
 	private static Keyboard keyboard;
 	private static Mouse mouse;
+	
+	private static int FPS;
+	private static int TPS;
 
 	private static Logger logger = Logger.getLogger("UNKNOWN-CORE");
 
@@ -166,6 +169,26 @@ public class Unknown
 		FPSAnimator ani = new FPSAnimator(fps);
 		ani.add(window);
 		ani.start();
+	}
+	
+	public static void setTPS(int tPS)
+	{
+		TPS = tPS;
+	}
+	
+	public static int getTPS()
+	{
+		return TPS;
+	}
+	
+	public static void setFPS(int fPS)
+	{
+		FPS = fPS;
+	}
+	
+	public static int getFPS()
+	{
+		return FPS;
 	}
 
 	public static void setScreenSize(Dimension screenSize)

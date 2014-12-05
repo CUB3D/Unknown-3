@@ -3,8 +3,6 @@ package call.game.mod;
 import java.util.ArrayList;
 import java.util.List;
 
-import call.game.mod.event.ModState;
-
 public class GameRegistery
 {
 	private static GameRegistery instance;
@@ -16,15 +14,11 @@ public class GameRegistery
 	
 	public void registerTickHandler(ITickHandler handler)
 	{
-		if(CALLModLoader.getInstance().getCurrentState() == ModState.CONSTRUCTING)
-			System.out.println("A mod is atempting to register a tick handler while constructing\nThis is bad practise");
 		tickHandlers.add(handler);
 	}
 	
 	public void registerRenderHandler(IRenderHandler handler)
 	{
-		if(CALLModLoader.getInstance().getCurrentState() == ModState.CONSTRUCTING)
-			System.out.println("A mod is atempting to register a render handler while constructing\nThis is bad practise");
 		renderHandlers.add(handler);
 	}
 	

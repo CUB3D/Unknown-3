@@ -79,7 +79,7 @@ public class Image
 		gl.glMatrixMode(GL2.GL_TEXTURE);
 		gl.glLoadIdentity();
 		gl.glTranslated(0.5, 0.5, 0);
-		gl.glRotated(angle + 90, 0, 0, 1.0);
+		gl.glRotated(angle, 0, 0, 1.0);
 		gl.glTranslated(-0.5, -0.5, 0);
 		gl.glMatrixMode(GL2.GL_MODELVIEW);
 
