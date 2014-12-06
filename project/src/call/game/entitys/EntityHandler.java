@@ -27,15 +27,23 @@ public class EntityHandler
 				e.update();
 		}
 
-		for(BaseEntity e : entitys) // go through all entities
+		for(int i = 0; i < entitys.size(); i++) // go through all entities
+		{
+			BaseEntity e = entitys.get(i);
+			
 			if(!e.isDead()) // make sure entity is not dead
-				for(BaseEntity ee : entitys) // go through all entities again
+				for(int ii = 0; ii < entitys.size(); ii++) // go through all entities again
+				{
+					BaseEntity ee = entitys.get(ii);
+					
 					if(!ee.isDead()) // make sure entity is not dead
 						if(!ee.equals(e)) // don't check for collision with self
 							if(e.getCollidableEntitys() != null) // check to see if the first entity can actually collide with anything
 								if(ArrayUtils.contains(e.getCollidableEntitys(), ee.getEntityID()))
 									if(Physicx.isPPIntersecting(e.getSprite().getImage(), ee.getSprite().getImage()))
 										e.handleCollision(ee);
+				}
+		}
 
 
 		for(int i = 0; i < entitys.size(); i++)
