@@ -64,6 +64,8 @@ public class Physicx
 	
 	public static boolean isPPIntersecting(Image a, Image b)
 	{	
+		System.out.println(a + "   "  + b);
+		
 		if(!isIntersecting(a.getBounds(), b.getBounds()))
 			return false;
 		

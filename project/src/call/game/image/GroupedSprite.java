@@ -83,4 +83,10 @@ public class GroupedSprite extends BaseSprite
 	{
 		return sprites;
 	}
+	
+	@Override
+	public Image getImage()
+	{
+		return ((BaseSprite) getSprites().values().toArray()[0]).getImage();
+	}
 }

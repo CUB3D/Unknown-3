@@ -45,7 +45,7 @@ public class BaseEntity
 		return true;
 	}
 
-	public void kill() {}
+	public void kill() {setHealth(0);}
 	
 	public double getHealth() {return 0;}
 	
