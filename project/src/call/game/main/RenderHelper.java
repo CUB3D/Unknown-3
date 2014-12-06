@@ -107,7 +107,6 @@ public class RenderHelper implements GLEventListener
 
 		Unknown.setGL(gl);
 
-
 		if(render != null)
 		{
 			try
@@ -115,7 +114,7 @@ public class RenderHelper implements GLEventListener
 				render.invoke(mainClassInstance, (Object[]) null);
 			}catch(Exception e) {e.printStackTrace();}
 		}
-
+		
 		EntityHandler.renderEntitys();
 		ParticleHandler.renderParticles();
 		

@@ -17,6 +17,11 @@ public class ParticleHandler
 
 		return bp;
 	}
+	
+	public static void spawnParticle(BaseParticle bp)
+	{
+		particles.add(bp);
+	}
 
 	public static void updateParticles()
 	{
