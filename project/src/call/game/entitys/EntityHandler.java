@@ -49,9 +49,13 @@ public class EntityHandler
 
 	public static void renderEntitys()
 	{
-		for(BaseEntity e : entitys)
+		for(int i = 0; i < entitys.size(); i++)
+		{
+			BaseEntity e = entitys.get(i);
+
 			if(!e.isDead())
 				e.render();
+		}
 	}
 
 	public static List<BaseEntity> getEntitys()
