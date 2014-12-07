@@ -17,6 +17,9 @@ public class UI2D
 		int red = (col >> 16) & 0xFF;
 		int alpha = (col >> 24) & 0xFF;
 
+		gl.glDisable(GL2.GL_LIGHTING);
+		gl.glDisable(GL2.GL_TEXTURE_2D);
+		
 		gl.glBegin(GL2.GL_QUADS);
 
 		gl.glColor4f(red / 255, green / 255, blue / 255, alpha / 255);
@@ -43,6 +46,9 @@ public class UI2D
 		int red = (col >> 16) & 0xFF;
 		int alpha = (col >> 24) & 0xFF;
 
+		gl.glDisable(GL2.GL_LIGHTING);
+		gl.glDisable(GL2.GL_TEXTURE_2D);
+		
 		gl.glBegin(GL2.GL_TRIANGLES);
 
 		gl.glColor4f(red / 255, green / 255, blue / 255, alpha / 255);
@@ -58,6 +64,9 @@ public class UI2D
 	{
 		GL2 gl = Unknown.getGL();
 
+		gl.glDisable(GL2.GL_LIGHTING);
+		gl.glDisable(GL2.GL_TEXTURE_2D);
+		
 		gl.glBegin(GL2.GL_POLYGON);
 
 		gl.glColor3f(1, 1, 0);
@@ -78,6 +87,9 @@ public class UI2D
 		int red = (col >> 16) & 0xFF;
 		int alpha = (col >> 24) & 0xFF;
 
+		gl.glDisable(GL2.GL_LIGHTING);
+		gl.glDisable(GL2.GL_TEXTURE_2D);
+		
 		gl.glBegin(GL2.GL_LINES);
 		
 		gl.glLineWidth(width);

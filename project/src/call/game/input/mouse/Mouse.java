@@ -58,8 +58,8 @@ public class Mouse implements com.jogamp.newt.event.MouseListener
 		x = e.getX();
 		y = e.getY();
 		
-		for(MouseListener ml : listeners)
-			ml.onClick(x, y, STATE_CLICKED, e.getButton());
+		for(int i = 0; i < listeners.size(); i++)
+			listeners.get(i).onClick(x, y, STATE_CLICKED, e.getButton());
 	}
 
 	@Override
@@ -68,8 +68,8 @@ public class Mouse implements com.jogamp.newt.event.MouseListener
 		x = e.getX();
 		y = e.getY();
 		
-		for(MouseListener ml : listeners)
-			ml.onClick(x, y, STATE_MOUSE_DOWN, e.getButton());
+		for(int i = 0; i < listeners.size(); i++)
+			listeners.get(i).onClick(x, y, STATE_MOUSE_DOWN, e.getButton());
 	}
 
 
@@ -79,8 +79,8 @@ public class Mouse implements com.jogamp.newt.event.MouseListener
 		x = e.getX();
 		y = e.getY();
 
-		for(MouseListener ml : listeners)
-			ml.onClick(x, y, STATE_MOUSE_UP, e.getButton());
+		for(int i = 0; i < listeners.size(); i++)
+			listeners.get(i).onClick(x, y, STATE_MOUSE_UP, e.getButton());
 	}
 
 	@Override
@@ -89,13 +89,8 @@ public class Mouse implements com.jogamp.newt.event.MouseListener
 		x = arg0.getX();
 		y = arg0.getY();
 
-		for(MouseListener ml : listeners)
-			ml.onMove(x, y);
-	}
-
-	public static Point getLocation()
-	{
-		return new Point(x, y);
+		for(int i = 0; i < listeners.size(); i++)
+			listeners.get(i).onMove(x, y);
 	}
 
 	public static Point getPixelLocation()
