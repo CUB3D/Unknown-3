@@ -25,7 +25,7 @@ public class AnimatedSprite extends BaseSprite
 	@Override
 	public void render()
 	{
-		ani.render((int) getX(), (int) getY());
+		renderAndAdvance();
 	}
 	
 	public void renderAndAdvance()

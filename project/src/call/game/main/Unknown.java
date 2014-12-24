@@ -42,7 +42,7 @@ public class Unknown
 
 	public static void main(String[] args)
 	{
-		ModEntry game = ModDiscoverer.loadMod(new File("core\\Game.jar"), new File("core"));
+		ModEntry game = ModDiscoverer.loadMod(new File("core/Game.jar"), new File("core"));
 
 		Class<?> clazz = null;
 

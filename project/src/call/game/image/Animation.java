@@ -54,7 +54,7 @@ public class Animation
 
 	public void render(int x, int y)
 	{
-		if(index <= maxindex)
+		if(index < maxindex)
 			getFrame(index).render(x, y);
 	}
 
