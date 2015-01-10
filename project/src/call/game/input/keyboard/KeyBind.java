@@ -1,16 +1,20 @@
 package call.game.input.keyboard;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import call.file.api.CFile;
-import call.file.api.FileAPI;
-import call.file.layout.Element;
-import call.file.layout.Value;
 import call.game.main.Unknown;
+import cub3d.file.main.Element;
+import cub3d.file.main.FileAPI;
+import cub3d.file.main.Value;
+import cub3d.file.reader.BasicReader;
+import cub3d.file.reader.CallReader;
+import cub3d.file.writer.BasicWriter;
+import cub3d.file.writer.CallWriter;
 
 public class KeyBind implements KeyboardListener
 {
@@ -91,25 +95,45 @@ public class KeyBind implements KeyboardListener
 
 	public static void saveBinds()
 	{
-		File f = new File("KeyBindings.call");
+		FileAPI api = new FileAPI("KeyBindings.call");
 
 		try
 		{
-			f.createNewFile();
-		}catch(Exception e) {e.printStackTrace();}
-
-		CFile binds = new CFile(new FileAPI(f));
-
-		for(KeyBind bind : keybindings.values())
-		{
-			Element e = new Element(bind.getName());
-
-			e.addValue(new Value("realKey", "" + bind.realKey));
-
-			binds.addElement(e);
+			api.createFile();
+		}catch(IOException ioe) {
+			System.out.println("Failed to create KeyBindings.call: ");
+			ioe.printStackTrace();
 		}
 
-		binds.save();
+
+		CallWriter cw = null;
+
+		try
+		{
+			cw = new CallWriter(new BasicWriter(api.getWriter()));
+
+
+			for(KeyBind bind : keybindings.values())
+			{
+				Element e = new Element(bind.getName());
+
+				e.addValue(new Value("realKey", "" + bind.realKey));
+
+				cw.writeElement(e);
+			}
+
+		}catch(Exception e) {
+			System.out.println("Error saving keybinds: ");
+			e.printStackTrace();
+		} finally {
+			try
+			{
+				cw.cleanup();
+			}catch(IOException e) {
+				System.out.println("Error closing stream: ");
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public static void loadBinds()
@@ -119,19 +143,26 @@ public class KeyBind implements KeyboardListener
 		if(!f.exists())
 			return;
 
-		CFile binds = new CFile(new FileAPI(f));
+		FileAPI api = new FileAPI(f);
 
-		binds.load();
-
-		for(Element e : binds.getElements())
+		try
 		{
-			String name = e.getName();
-			int realKey = e.getValue("realKey").getInt();
+			CallReader binds = new CallReader(new BasicReader(api.getReader()));
 
-			KeyBind bind = keybindings.get(name);
+			for(Element e : binds.getElements())
+			{
+				String name = e.getName();
+				int realKey = e.getValue("realKey").getInt();
 
-			if(bind != null)
-				bind.setRealKey(realKey);
+				KeyBind bind = keybindings.get(name);
+
+				if(bind != null)
+					bind.setRealKey(realKey);
+			}
+
+		}catch(Exception e) {
+			System.out.println("Coulden't read KeyBinds.call");
+			e.printStackTrace();
 		}
 	}
 }

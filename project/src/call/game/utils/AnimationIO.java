@@ -11,10 +11,12 @@ import java.util.zip.ZipInputStream;
 
 import javax.imageio.ImageIO;
 
-import call.file.api.CFile;
-import call.file.layout.Element;
 import call.game.image.Animation;
 import call.game.image.Image;
+import cub3d.file.main.Element;
+import cub3d.file.reader.BasicReader;
+import cub3d.file.reader.CallReader;
+import cub3d.file.reader.Reader;
 
 public class AnimationIO
 {
@@ -59,8 +61,8 @@ public class AnimationIO
 						
 						baos.write(b);
 					}
-
-					CFile data = new CFile(new ByteArrayInputStream(baos.toByteArray()));
+					
+					CallReader data = new CallReader(new BasicReader(new Reader(new ByteArrayInputStream(baos.toByteArray()))));
 
 					Element ani = data.getElementByName("Animation");
 

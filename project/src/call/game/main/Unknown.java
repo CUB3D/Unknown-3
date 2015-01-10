@@ -2,6 +2,7 @@ package call.game.main;
 
 import java.awt.Dimension;
 import java.io.File;
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.logging.Logger;
 
@@ -9,8 +10,6 @@ import javax.media.opengl.GL2;
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLProfile;
 
-import call.file.api.CFile;
-import call.file.layout.Element;
 import call.game.input.keyboard.KeyBind;
 import call.game.input.keyboard.Keyboard;
 import call.game.input.mouse.Mouse;
@@ -23,6 +22,11 @@ import com.jogamp.newt.event.WindowListener;
 import com.jogamp.newt.event.WindowUpdateEvent;
 import com.jogamp.newt.opengl.GLWindow;
 import com.jogamp.opengl.util.FPSAnimator;
+
+import cub3d.file.main.Element;
+import cub3d.file.main.FileAPI;
+import cub3d.file.reader.BasicReader;
+import cub3d.file.reader.CallReader;
 
 public class Unknown
 {
@@ -81,20 +85,29 @@ public class Unknown
 		
 		File f = new File("GameInfo.call");
 		
+		FileAPI api = new FileAPI(f);
+		
 		if(f.exists())
 		{
-			CFile cf = new CFile(f);
+			try
+			{
+			CallReader reader = new CallReader(new BasicReader(api.getReader()));
 			
-			Element window = cf.getElementByName("Window");
+			Element window = reader.getElementByName("Window");
 			
 			settings.setWidth(window.getValue("Width").getInt(0));
 			settings.setHeight(window.getValue("Height").getInt(0));
-			settings.setTitle(window.getValue("Title").getValue("A Unknown 3.0 game"));
+			settings.setTitle(window.getValue("Title").getString("A Unknown 3.0 game"));
 			
-			Element game = cf.getElementByName("Game");
+			Element game = reader.getElementByName("Game");
 			
 			settings.setFps(game.getValue("MaxFPS").getInt(120));
 			settings.setTps(game.getValue("MaxTPS").getInt(60));
+			}catch(IOException e) {
+				e.printStackTrace();
+				logger.warning("Failed to read GameInfo.call");
+				System.exit(-3);
+			}
 		}
 		else
 		{
