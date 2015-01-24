@@ -8,6 +8,11 @@ import call.game.main.Unknown;
 
 public class UI2D
 {
+	public static void rect(double x, double y, double width, double height)
+	{
+		rect(x, y, width, height, 0xFFFFFFFF);
+	}
+	
 	public static void rect(double x, double y, double width, double height, int col)
 	{
 		GL2 gl = Unknown.getGL();
@@ -32,9 +37,19 @@ public class UI2D
 		gl.glEnd();
 	}
 
+	public static void square(double x, double y, double size)
+	{
+		square(x, y, size, 0xFFFFFFFF);
+	}
+	
 	public static void square(double x, double y, double size, int col)
 	{
 		rect(x, y, size, size, col);
+	}
+	
+	public static void triangle(double x, double y, double width, double height)
+	{
+		triangle(x, y, width, height, 0xFFFFFFFF);
 	}
 
 	public static void triangle(double x, double y, double width, double height, int col)
@@ -59,23 +74,37 @@ public class UI2D
 
 		gl.glEnd();
 	}
-
+	
 	public static void polygon(double x, double y, Point[] verts)
 	{
+		polygon(x, y, verts, 0xFFFFFFFF);
+	}
+
+	public static void polygon(double x, double y, Point[] verts, int col)
+	{
 		GL2 gl = Unknown.getGL();
+		
+		int blue = (col >> 0) & 0xFF;
+		int green = (col >> 8) & 0xFF;
+		int red = (col >> 16) & 0xFF;
+		int alpha = (col >> 24) & 0xFF;
 
 		gl.glDisable(GL2.GL_LIGHTING);
 		gl.glDisable(GL2.GL_TEXTURE_2D);
 		
 		gl.glBegin(GL2.GL_POLYGON);
 
-		gl.glColor3f(1, 1, 0);
-
+		gl.glColor4f(red / 255, green / 255, blue / 255, alpha / 255);
 
 		for(Point d : verts)
 			gl.glVertex2d(x + d.getX(), y + d.getY());
 
 		gl.glEnd();
+	}
+	
+	public static void line(double x1, double y1, double x2, double y2, float width)
+	{
+		line(x1, y1, x2, y2, width, 0xFFFFFFFF);
 	}
 	
 	public static void line(double x1, double y1, double x2, double y2, float width, int col)

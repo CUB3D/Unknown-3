@@ -16,19 +16,10 @@ public class Shader
 	private int fragmentShaderProgram;
 	private int shaderprogram;
 
-	public Shader(String name)
-	{
-		this(name + ".vert", name + ".frag");
-	}
-	
-	public Shader(String vert, String frag)
-	{
-	}
-
 	public void init()
 	{
 		GL2 gl = Unknown.getGL();
-		
+
 		// create shader's
 		vertexShaderProgram = gl.glCreateShader(GL2.GL_VERTEX_SHADER);
 		fragmentShaderProgram = gl.glCreateShader(GL2.GL_FRAGMENT_SHADER);
@@ -84,24 +75,34 @@ public class Shader
 			System.exit(1);
 		}
 	}
-	
-	public void setUniformFloat(GL2 gl, String name, float value)
+
+	public void setUniformFloat(String name, float value)
 	{
+		GL2 gl = Unknown.getGL();
+
 		int uniformID = gl.glGetUniformLocation(shaderprogram, name);
 		gl.glUniform1f(uniformID, value);
 	}
-	
-	public void setUniformVec4(GL2 gl, String name, float a, float b, float c, float d)
+
+	public void setUniformVec4(String name, float a, float b, float c, float d)
 	{
+		GL2 gl = Unknown.getGL();
 		int uniformID = gl.glGetUniformLocation(shaderprogram, name);
 		gl.glUniform4f(uniformID, a, b, c, d);
 	}
-	
+
 	public void bind()
 	{
 		GL2 gl = Unknown.getGL();
-		
+
 		gl.glUseProgram(shaderprogram);
+	}
+
+	public void unbind()
+	{
+		GL2 gl = Unknown.getGL();
+
+		gl.glUseProgram(0);
 	}
 
 	public String getFragmentShader()

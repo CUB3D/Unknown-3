@@ -12,8 +12,6 @@ public class FileShader extends Shader
 	
 	public FileShader(String vert, String frag)
 	{
-		super(vert, frag);
-		
 		this.fragmentShader = loadShader(frag);
 		this.vertexShader = loadShader(vert);
 	}
@@ -31,7 +29,7 @@ public class FileShader extends Shader
 			String line;
 
 			while((line = br.readLine()) != null)
-				s += line;
+				s += line + "\n";
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
