@@ -25,6 +25,7 @@ import com.jogamp.opengl.util.FPSAnimator;
 
 import cub3d.file.main.Element;
 import cub3d.file.main.FileAPI;
+import cub3d.file.main.ParseException;
 import cub3d.file.reader.BasicReader;
 import cub3d.file.reader.CallReader;
 
@@ -38,7 +39,7 @@ public class Unknown
 
 	private static Keyboard keyboard;
 	private static Mouse mouse;
-	
+
 	private static int FPS;
 	private static int TPS;
 
@@ -82,39 +83,68 @@ public class Unknown
 	public static void init(Class<?> clazz)
 	{
 		GameSettings settings = new GameSettings();
-		
+
 		File f = new File("GameInfo.call");
-		
+
 		FileAPI api = new FileAPI(f);
-		
+
 		if(f.exists())
 		{
+			CallReader reader = null;
+
+			int height = 0;
+			int width = 0;
+			String title = "A Unknown 3.0 game";
+			
+			int maxFPS = 120;
+			int maxTPS = 60;
+
 			try
 			{
-			CallReader reader = new CallReader(new BasicReader(api.getReader()));
-			
-			Element window = reader.getElementByName("Window");
-			
-			settings.setWidth(window.getValue("Width").getInt(0));
-			settings.setHeight(window.getValue("Height").getInt(0));
-			settings.setTitle(window.getValue("Title").getString("A Unknown 3.0 game"));
-			
-			Element game = reader.getElementByName("Game");
-			
-			settings.setFps(game.getValue("MaxFPS").getInt(120));
-			settings.setTps(game.getValue("MaxTPS").getInt(60));
+				reader = new CallReader(new BasicReader(api.getReader()));
+
+				Element window = reader.getElementByName("Window");
+
+				if(window != null)
+				{
+					height = window.getValue("Height").getInt();
+					width = window.getValue("Width").getInt();
+					title = window.getValue("Title").getString("A Unknown 3.0 game");
+				}
+				
+				Element game = reader.getElementByName("Game");
+				
+				if(game != null)
+				{
+					maxFPS = game.getValue("MaxFPS").getInt(120);
+					maxTPS = game.getValue("MaxTPS").getInt(60);
+				}
+
 			}catch(IOException e) {
 				e.printStackTrace();
 				logger.warning("Failed to read GameInfo.call");
 				System.exit(-3);
+			}catch(ParseException e) {
+				e.printStackTrace();
+				logger.warning("Failed to pharse value from GameInfo.call");
+				System.exit(-4);
 			}
+
+			settings.setWidth(width);
+			settings.setHeight(height);
+			settings.setTitle(title);
+
+			
+
+			settings.setFps(maxFPS);
+			settings.setTps(maxTPS);
 		}
 		else
 		{
 			logger.warning("No GameInfo.call, game cannot be loaded");
 			System.exit(-2);
 		}
-		
+
 		init(clazz, settings);
 	}
 
@@ -123,14 +153,14 @@ public class Unknown
 		// load mods
 		CALLModLoader.getInstance();
 
-		
-		
+
+
 		int width = settings.getWidth();
 		int height = settings.getHeight();
 		String title = settings.getTitle();
 		int tps = settings.getTps();
 		int fps = settings.getFps();
-		
+
 		//System.out.println("width" + width);
 
 		setScreenSize(new Dimension(width, width));
@@ -183,22 +213,22 @@ public class Unknown
 		ani.add(window);
 		ani.start();
 	}
-	
+
 	public static void setTPS(int tPS)
 	{
 		TPS = tPS;
 	}
-	
+
 	public static int getTPS()
 	{
 		return TPS;
 	}
-	
+
 	public static void setFPS(int fPS)
 	{
 		FPS = fPS;
 	}
-	
+
 	public static int getFPS()
 	{
 		return FPS;

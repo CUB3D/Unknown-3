@@ -125,14 +125,8 @@ public class KeyBind implements KeyboardListener
 		}catch(Exception e) {
 			System.out.println("Error saving keybinds: ");
 			e.printStackTrace();
-		} finally {
-			try
-			{
+		}finally {
 				cw.cleanup();
-			}catch(IOException e) {
-				System.out.println("Error closing stream: ");
-				e.printStackTrace();
-			}
 		}
 	}
 

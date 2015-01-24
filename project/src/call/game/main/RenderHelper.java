@@ -136,8 +136,12 @@ public class RenderHelper implements GLEventListener
 	public void dispose(GLAutoDrawable arg0) {}
 
 	@Override
-	public void init(GLAutoDrawable arg0)
+	public void init(GLAutoDrawable auto)
 	{
+		GL2 gl = auto.getGL().getGL2();
+		
+		Unknown.setGL(gl);
+		
 		initTextures();
 	}
 
