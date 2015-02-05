@@ -7,13 +7,14 @@ import java.awt.image.BufferedImage;
 import javax.media.opengl.GL2;
 
 import call.game.main.Unknown;
-import call.game.physicx.bounding.BoundingBox;
+import call.game.physicx.BoundingBox;
+import call.game.physicx.IBounded;
 import call.utils.ImageUtils;
 
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
 
-public class Image
+public class Image implements IBounded
 {
 	public static final int FLIP_Y = 0x1;
 	public static final int FLIP_X = 0x2;
@@ -172,11 +173,6 @@ public class Image
 		this.flipData = flip;
 	}
 
-	public BoundingBox getBounds()
-	{
-		return bounds;
-	}
-
 	public BufferedImage getBackend()
 	{
 		return backend;
@@ -203,6 +199,12 @@ public class Image
 		return scale;
 	}
 
+	@Override
+	public BoundingBox getBounds()
+	{
+		return bounds;
+	}
+	
 	@Override
 	public Object clone()
 	{

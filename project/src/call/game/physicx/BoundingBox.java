@@ -1,4 +1,4 @@
-package call.game.physicx.bounding;
+package call.game.physicx;
 
 import java.awt.Rectangle;
 
