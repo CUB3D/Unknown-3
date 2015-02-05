@@ -8,6 +8,7 @@ public class GameSettings
 	private String title;
 	private int tps;
 	private int fps;
+	private boolean vSync;
 	
 	public GameSettings()
 	{
@@ -21,16 +22,17 @@ public class GameSettings
 	
 	public GameSettings(int width, int height, String title)
 	{
-		this(width, height, title, 120, 60);
+		this(width, height, title, 120, 60, false);
 	}
 	
-	public GameSettings(int width, int height, String title, int fps, int tps)
+	public GameSettings(int width, int height, String title, int fps, int tps, boolean vSync)
 	{
 		this.width = width;
 		this.height = height;
 		this.title = title;
 		this.fps = fps;
 		this.tps = tps;
+		this.vSync = vSync;
 	}
 	
 	public void setWidth(int width)
@@ -81,5 +83,15 @@ public class GameSettings
 	public String getTitle()
 	{
 		return title;
+	}
+	
+	public void setvSync(boolean vSync)
+	{
+		this.vSync = vSync;
+	}
+	
+	public boolean getvSync()
+	{
+		return vSync;
 	}
 }

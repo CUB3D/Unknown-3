@@ -27,15 +27,19 @@ public class RenderHelper implements GLEventListener
 	private int frames = 0;
 	private int ticks = 0;
 	private long timer = 0;
+	
+	private GameSettings settings;
 
-	public RenderHelper(int width, int height, Class<?> claz, int tps)
+	public RenderHelper(int width, int height, Class<?> claz, GameSettings settings)
 	{
+		this.settings = settings;
+		
 		this.width = width;
 		this.height = height;
 
 		this.startTime = System.nanoTime();
 		this.timer = System.currentTimeMillis();
-		this.tickSpeed = 1000000000.0 / tps;
+		this.tickSpeed = 1000000000.0 / settings.getTps();
 
 		render = ClassUtils.getDefinedMethod("Render", claz);
 		update = ClassUtils.getDefinedMethod("Update", claz);
@@ -70,10 +74,10 @@ public class RenderHelper implements GLEventListener
 		if(System.currentTimeMillis() - timer > 1000)
 		{
 			timer = System.currentTimeMillis();
-			
+
 			Unknown.setFPS(frames);
 			Unknown.setTPS(ticks);
-			
+
 			System.out.println("FPS: " + frames + ", TPS: " + ticks);
 			frames = 0;
 			ticks = 0;
@@ -83,7 +87,7 @@ public class RenderHelper implements GLEventListener
 	public void tick()
 	{
 		GameRegistery.getInstance().onTickStart();
-		
+
 		if(update != null)
 		{
 			try
@@ -91,10 +95,10 @@ public class RenderHelper implements GLEventListener
 				update.invoke(mainClassInstance, (Object[]) null);
 			}catch(Exception e) {e.printStackTrace();}
 		}
-		
+
 		EntityHandler.updateEntitys();
 		ParticleHandler.updateParticles();
-		
+
 		GameRegistery.getInstance().onTickEnd();
 	}
 
@@ -114,10 +118,10 @@ public class RenderHelper implements GLEventListener
 				render.invoke(mainClassInstance, (Object[]) null);
 			}catch(Exception e) {e.printStackTrace();}
 		}
-		
+
 		EntityHandler.renderEntitys();
 		ParticleHandler.renderParticles();
-		
+
 		GameRegistery.getInstance().onRender();
 	}
 
@@ -139,9 +143,16 @@ public class RenderHelper implements GLEventListener
 	public void init(GLAutoDrawable auto)
 	{
 		GL2 gl = auto.getGL().getGL2();
-		
+
 		Unknown.setGL(gl);
-		
+
+		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		gl.glClearDepth(1.0f);
+		gl.glEnable(GL2.GL_DEPTH_TEST);
+		gl.glDepthFunc(GL2.GL_LEQUAL);
+		gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT, GL2.GL_NICEST); // best perspective correction
+		gl.glShadeModel(GL2.GL_SMOOTH);
+
 		initTextures();
 	}
 
@@ -151,8 +162,11 @@ public class RenderHelper implements GLEventListener
 		//create orthographic view
 		GL2 gl = draw.getGL().getGL2();
 
+		gl.glViewport(0, 0, width, height);
+
 		gl.glOrtho(0, width, 0, height, 0, 1);
 
-		//	gl.setSwapInterval(1); // enable v-sync
+		if(settings.getvSync())
+			gl.setSwapInterval(1); // enable v-sync
 	}
 }

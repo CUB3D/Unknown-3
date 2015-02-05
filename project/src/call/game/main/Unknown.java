@@ -98,6 +98,7 @@ public class Unknown
 			
 			int maxFPS = 120;
 			int maxTPS = 60;
+			boolean vSync = false;
 
 			try
 			{
@@ -118,6 +119,7 @@ public class Unknown
 				{
 					maxFPS = game.getValue("MaxFPS").getInt(120);
 					maxTPS = game.getValue("MaxTPS").getInt(60);
+					vSync = game.getValue("vSync").getBoolean(false);
 				}
 
 			}catch(IOException e) {
@@ -138,6 +140,7 @@ public class Unknown
 
 			settings.setFps(maxFPS);
 			settings.setTps(maxTPS);
+			settings.setvSync(vSync);
 		}
 		else
 		{
@@ -158,7 +161,6 @@ public class Unknown
 		int width = settings.getWidth();
 		int height = settings.getHeight();
 		String title = settings.getTitle();
-		int tps = settings.getTps();
 		int fps = settings.getFps();
 
 		//System.out.println("width" + width);
@@ -206,7 +208,7 @@ public class Unknown
 			}
 		});
 
-		window.addGLEventListener(new RenderHelper(width, height, clazz, tps));
+		window.addGLEventListener(new RenderHelper(width, height, clazz, settings));
 
 		//create animator
 		FPSAnimator ani = new FPSAnimator(fps);
