@@ -165,7 +165,7 @@ public class Unknown
 
 		//System.out.println("width" + width);
 
-		setScreenSize(new Dimension(width, width));
+		setScreenSize(new Dimension(width, height));
 
 		profile = GLProfile.get(GLProfile.GL2);
 		GLProfile.initSingleton();
