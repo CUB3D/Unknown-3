@@ -99,6 +99,7 @@ public class Unknown
 			int maxFPS = 120;
 			int maxTPS = 60;
 			boolean vSync = false;
+			boolean autoClear = false;
 
 			try
 			{
@@ -120,6 +121,7 @@ public class Unknown
 					maxFPS = game.getValue("MaxFPS").getInt(120);
 					maxTPS = game.getValue("MaxTPS").getInt(60);
 					vSync = game.getValue("vSync").getBoolean(false);
+					autoClear = game.getValue("autoClear").getBoolean(true);
 				}
 
 			}catch(IOException e) {
@@ -140,7 +142,14 @@ public class Unknown
 
 			settings.setFps(maxFPS);
 			settings.setTps(maxTPS);
-			settings.setvSync(vSync);
+			
+			settings.setDisplaySettings(GameSettings.DISPLAY_NONE);
+			
+			if(vSync)
+				settings.setDisplaySettings(settings.getDisplaySettings() & GameSettings.DISPLAY_VSYNC);
+			
+			if(autoClear)
+				settings.setDisplaySettings(settings.getDisplaySettings() & GameSettings.DISPLAY_AUTOCLEAN);
 		}
 		else
 		{

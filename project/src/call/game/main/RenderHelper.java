@@ -110,6 +110,9 @@ public class RenderHelper implements GLEventListener
 			return;
 
 		Unknown.setGL(gl);
+		
+		if((settings.getDisplaySettings() | GameSettings.DISPLAY_AUTOCLEAN) == GameSettings.DISPLAY_AUTOCLEAN)
+			gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
 
 		if(render != null)
 		{
@@ -166,7 +169,7 @@ public class RenderHelper implements GLEventListener
 
 		gl.glOrtho(0, width, 0, height, 0, 1);
 
-		if(settings.getvSync())
+		if((settings.getDisplaySettings() | GameSettings.DISPLAY_VSYNC) == GameSettings.DISPLAY_VSYNC)
 			gl.setSwapInterval(1); // enable v-sync
 	}
 }
