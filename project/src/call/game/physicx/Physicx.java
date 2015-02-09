@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.util.HashSet;
 
 import call.game.image.Image;
+import call.game.physicx.bounding.BoundingBox;
 
 
 public class Physicx

@@ -5,12 +5,9 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
-<<<<<<< HEAD
-import call.game.physicx.BoundingBox;
-=======
 import call.game.main.Unknown;
->>>>>>> dev
 import call.game.physicx.Physicx;
+import call.game.physicx.bounding.BoundingBox;
 
 import com.jogamp.newt.event.MouseEvent;
 
