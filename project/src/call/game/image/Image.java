@@ -29,8 +29,6 @@ public class Image
 
 	private float scale = 1;
 
-	private boolean transparent;
-
 
 	public Image(String s)
 	{
@@ -74,12 +72,9 @@ public class Image
 
 		text.enable(gl);
 
-		if(transparent)
-		{
-			gl.glEnable(GL2.GL_BLEND);
-			gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
-		}
-
+		gl.glEnable(GL2.GL_BLEND);
+		gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
+		
 		text.bind(gl);
 
 		text.setTexParameteri(gl, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_NEAREST);
@@ -186,25 +181,17 @@ public class Image
 		return backend.getHeight();
 	}
 
-	public void setScale(float scale)
+	public Image setScale(float scale)
 	{
 		this.scale = scale;
 		hasInit = false;
+
+		return this;
 	}
 
 	public float getScale()
 	{
 		return scale;
-	}
-	
-	public void setTransparent(boolean transparent)
-	{
-		this.transparent = transparent;
-	}
-	
-	public boolean getTransparent()
-	{
-		return transparent;
 	}
 
 	@Override
