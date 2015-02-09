@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import call.game.main.Unknown;
+import call.game.physicx.BoundingBox;
 import call.game.physicx.Physicx;
-import call.game.physicx.bounding.BoundingBox;
 
 import com.jogamp.newt.event.MouseEvent;
 
