@@ -5,7 +5,11 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
+<<<<<<< HEAD
 import call.game.physicx.BoundingBox;
+=======
+import call.game.main.Unknown;
+>>>>>>> dev
 import call.game.physicx.Physicx;
 
 import com.jogamp.newt.event.MouseEvent;
@@ -93,9 +97,14 @@ public class Mouse implements com.jogamp.newt.event.MouseListener
 			listeners.get(i).onMove(x, y);
 	}
 
-	public static Point getPixelLocation()
+	public static Point getLocation()
 	{
-		return new Point(x, 0 - y + 490);
+		return new Point(x, -y + Unknown.getScreenSize().height);
+	}
+	
+	public static Point getTrueLocation()
+	{
+		return new Point(x, y);
 	}
 
 	public static BoundingBox getBounds()

@@ -2,8 +2,14 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+<<<<<<< HEAD
 	<classpathentry kind="lib" path="/media/callum/Data/Ubuntu/Git/Utils-1.0/lib/Utils.jar"/>
 	<classpathentry kind="lib" path="/media/callum/Data/Ubuntu/Git/FileAPI-2.0/lib/FileAPI 2.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JOGL Linux 64"/>
+=======
+	<classpathentry kind="lib" path="C:/Users/Callum/Documents/GitHub/Utils-1.0/lib/Utils.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Callum/Documents/GitHub/FileAPI-2.0/lib/FileAPI 2.0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jogl-2.0"/>
+>>>>>>> dev
 	<classpathentry kind="output" path="bin"/>
 </classpath>

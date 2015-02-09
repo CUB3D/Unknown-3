@@ -78,6 +78,11 @@ public class Image implements IBounded
 
 		gl.glEnable(GL2.GL_BLEND);
 		gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
+<<<<<<< HEAD
+=======
+		
+		text.bind(gl);
+>>>>>>> dev
 
 		text.setTexParameteri(gl, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_NEAREST);
 
@@ -188,10 +193,12 @@ public class Image implements IBounded
 		return backend.getHeight();
 	}
 
-	public void setScale(float scale)
+	public Image setScale(float scale)
 	{
 		this.scale = scale;
 		hasInit = false;
+
+		return this;
 	}
 
 	public float getScale()
@@ -199,12 +206,15 @@ public class Image implements IBounded
 		return scale;
 	}
 
+<<<<<<< HEAD
 	@Override
 	public BoundingBox getBounds()
 	{
 		return bounds;
 	}
 	
+=======
+>>>>>>> dev
 	@Override
 	public Object clone()
 	{
