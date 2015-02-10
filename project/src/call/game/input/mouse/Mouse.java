@@ -60,7 +60,7 @@ public class Mouse implements com.jogamp.newt.event.MouseListener
 		y = e.getY();
 		
 		for(int i = 0; i < listeners.size(); i++)
-			listeners.get(i).onClick(x, y, STATE_CLICKED, e.getButton());
+			listeners.get(i).onClick(x, getLocation().y, STATE_CLICKED, e.getButton());
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class Mouse implements com.jogamp.newt.event.MouseListener
 		y = e.getY();
 		
 		for(int i = 0; i < listeners.size(); i++)
-			listeners.get(i).onClick(x, y, STATE_MOUSE_DOWN, e.getButton());
+			listeners.get(i).onClick(x, getLocation().y, STATE_MOUSE_DOWN, e.getButton());
 	}
 
 
@@ -81,7 +81,7 @@ public class Mouse implements com.jogamp.newt.event.MouseListener
 		y = e.getY();
 
 		for(int i = 0; i < listeners.size(); i++)
-			listeners.get(i).onClick(x, y, STATE_MOUSE_UP, e.getButton());
+			listeners.get(i).onClick(x, getLocation().y, STATE_MOUSE_UP, e.getButton());
 	}
 
 	@Override

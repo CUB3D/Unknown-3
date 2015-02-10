@@ -130,7 +130,7 @@ public class Unknown
 				System.exit(-3);
 			}catch(ParseException e) {
 				e.printStackTrace();
-				logger.warning("Failed to pharse value from GameInfo.call");
+				logger.warning("Failed to parse value from GameInfo.call");
 				System.exit(-4);
 			}
 
