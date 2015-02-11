@@ -42,6 +42,19 @@ public class UI2D
 
 		gl.glEnd();
 	}
+	
+	public static void outlineRect(double x, double y, double width, double height, int col)
+	{
+		int linewidth = 8;
+		
+		UI2D.line(x, y, x, y + height, linewidth, col);
+		
+		UI2D.line(x, y, x + width, y, linewidth, col);
+		
+		UI2D.line(x, y + height, x + width, y + height, linewidth, col);
+		
+		UI2D.line(x + width, y, x + width, y + height, linewidth, col);
+	}
 
 	public static void square(double x, double y, double size)
 	{

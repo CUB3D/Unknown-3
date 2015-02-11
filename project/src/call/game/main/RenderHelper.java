@@ -10,6 +10,7 @@ import call.game.entitys.EntityHandler;
 import call.game.entitys.particle.ParticleHandler;
 import call.game.input.keyboard.KeyBind;
 import call.game.mod.GameRegistery;
+import call.main.menu.DebugMenu;
 
 public class RenderHelper implements GLEventListener
 {
@@ -126,6 +127,8 @@ public class RenderHelper implements GLEventListener
 		ParticleHandler.renderParticles();
 
 		GameRegistery.getInstance().onRender();
+		
+		DebugMenu.getInstance().render();
 	}
 
 	public void initTextures()
