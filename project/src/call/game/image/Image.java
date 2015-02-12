@@ -119,9 +119,6 @@ public class Image implements IBounded
 	private void renderDebug(float x, float y)
 	{
 		UI2D.outlineRect(x, y, bounds.getWidth(), bounds.getHeight(), 0xFF00FF00);
-		
-		UI2D.renderText("X: " + x, (int) (x + bounds.getWidth() + 2), (int) (y + bounds.getHeight() - 10));
-		UI2D.renderText("Y: " + y, (int) (x + bounds.getWidth() + 2), (int) (y + bounds.getHeight() - 20));
 	}
 
 	public void renderFlipBoth(GL2 gl, float x, float y)
