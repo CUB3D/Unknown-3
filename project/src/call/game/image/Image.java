@@ -18,11 +18,12 @@ import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
 
 public class Image implements IBounded
 {
-	public static final int FLIP_Y = 0x1;
-	public static final int FLIP_X = 0x2;
+	public static final int FLIP_NONE = 0x1;
+	public static final int FLIP_Y = 0x2;
+	public static final int FLIP_X = 0x3;
 
 	private Texture text = null;
-	private int flipData = -1;
+	private int flipData = FLIP_NONE;
 
 	private BoundingBox bounds = null;
 
