@@ -318,6 +318,9 @@ public class Unknown
 	
 	public static void registerUpdateable(IUpdateable update, EnumCallTime callTime)
 	{
+		if(callTime == EnumCallTime.NEVER)
+			return;
+		
 		Set<IUpdateable> iUpdateables = updateables.get(callTime);
 		
 		if(iUpdateables == null)
@@ -335,6 +338,9 @@ public class Unknown
 	
 	public static void registerRenderable(IRenderable render, EnumCallTime callTime)
 	{
+		if(callTime == EnumCallTime.NEVER)
+			return;
+		
 		Set<IRenderable> iRenderables = renderables.get(callTime);
 		
 		if(iRenderables == null)

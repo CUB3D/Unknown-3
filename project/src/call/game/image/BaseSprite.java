@@ -1,21 +1,30 @@
 package call.game.image;
 
+import call.game.main.EnumCallTime;
+import call.game.main.IRenderable;
+import call.game.main.Unknown;
 import call.game.utils.Translate;
 import call.game.utils.Vec2Double;
 
-public class BaseSprite
+public class BaseSprite implements IRenderable
 {
 	private double x;
 	private double y;
 	private double angle;
 	private Vec2Double direction = new Vec2Double(0, 0);
 	
-	public BaseSprite(double x, double y)
+	protected EnumCallTime callTime;
+	
+	public BaseSprite(double x, double y, EnumCallTime calltime)
 	{
 		this.x = x;
 		this.y = y;
 		
 		setAngle(0);
+		
+		this.callTime = calltime;
+		
+		Unknown.registerRenderable(this, calltime);
 	}
 	
 	public void translate(Translate t)
@@ -36,6 +45,7 @@ public class BaseSprite
 		this.y += velocity.getY();
 	}
 	
+	@Override
 	public void render() {}
 	public Image getImage() { return null; }
 	

@@ -3,15 +3,16 @@ package call.game.image;
 import java.util.HashMap;
 import java.util.Map;
 
+import call.game.main.EnumCallTime;
 import call.game.utils.Translate;
 
 public class GroupedSprite extends BaseSprite
 {
 	private Map<String, BaseSprite> sprites = new HashMap<String, BaseSprite>();
 	
-	public GroupedSprite(double x, double y)
+	public GroupedSprite(double x, double y, EnumCallTime callTime)
 	{
-		super(x, y);
+		super(x, y, callTime);
 	}
 	
 	@Override
