@@ -1,6 +1,8 @@
 package call.game.main;
 
 import java.lang.reflect.Method;
+import java.util.Map;
+import java.util.Set;
 
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
@@ -9,7 +11,6 @@ import javax.media.opengl.GLEventListener;
 import call.game.entitys.EntityHandler;
 import call.game.entitys.particle.ParticleHandler;
 import call.game.input.keyboard.KeyBind;
-import call.game.mod.GameRegistery;
 import call.main.menu.DebugMenu;
 
 public class RenderHelper implements GLEventListener
@@ -28,13 +29,13 @@ public class RenderHelper implements GLEventListener
 	private int frames = 0;
 	private int ticks = 0;
 	private long timer = 0;
-	
+
 	private GameSettings settings;
 
 	public RenderHelper(int width, int height, Class<?> claz, GameSettings settings)
 	{
 		this.settings = settings;
-		
+
 		this.width = width;
 		this.height = height;
 
@@ -87,7 +88,13 @@ public class RenderHelper implements GLEventListener
 
 	public void tick()
 	{
-		GameRegistery.getInstance().onTickStart();
+		Map<EnumCallTime, Set<IUpdateable>> map = Unknown.getUpdateables();
+
+		Set<IUpdateable> start = map.get(EnumCallTime.START);
+
+		if(start != null)
+			for(IUpdateable i : start)
+				i.update();
 
 		if(update != null)
 		{
@@ -100,7 +107,11 @@ public class RenderHelper implements GLEventListener
 		EntityHandler.updateEntitys();
 		ParticleHandler.updateParticles();
 
-		GameRegistery.getInstance().onTickEnd();
+		Set<IUpdateable> end = map.get(EnumCallTime.END);
+
+		if(end != null)
+			for(IUpdateable i : end)
+				i.update();
 	}
 
 	public void render(GLAutoDrawable draw)
@@ -111,9 +122,17 @@ public class RenderHelper implements GLEventListener
 			return;
 
 		Unknown.setGL(gl);
-		
+
 		if((settings.getDisplaySettings() | GameSettings.DISPLAY_AUTOCLEAN) == GameSettings.DISPLAY_AUTOCLEAN)
 			gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
+		
+		Map<EnumCallTime, Set<IRenderable>> map = Unknown.getRenderables();
+
+		Set<IRenderable> start = map.get(EnumCallTime.START);
+
+		if(start != null)
+			for(IRenderable i : start)
+				i.render();
 
 		if(render != null)
 		{
@@ -126,9 +145,13 @@ public class RenderHelper implements GLEventListener
 		EntityHandler.renderEntitys();
 		ParticleHandler.renderParticles();
 
-		GameRegistery.getInstance().onRender();
-		
 		DebugMenu.getInstance().render();
+		
+		Set<IRenderable> end = map.get(EnumCallTime.END);
+
+		if(end != null)
+			for(IRenderable i : end)
+				i.render();
 	}
 
 	public void initTextures()
