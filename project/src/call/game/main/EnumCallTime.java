@@ -20,5 +20,5 @@ package call.game.main;
  */
 public enum EnumCallTime
 {
-	START, END;
+	START, END, NEVER;
 }
