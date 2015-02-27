@@ -32,13 +32,19 @@ public class BasicMenuButton
 			UI2D.rect(menu.getX() + menu.getWidth() - 22, menu.getY() + menu.getHeight() - ((pos + 1) * 14) - 24, 20, 12, 0xFFFF0000);
 	}
 	
-	public void onClick(int x, int y, OverlayMenu menu, int pos)
+	public boolean onClick(int x, int y, OverlayMenu menu, int pos)
 	{
 		int yy = menu.getY() + menu.getHeight() - ((pos + 1) * 14) - 24;
 		
 		if(x > menu.getX() + menu.getWidth() - 42 && x < menu.getX() + menu.getWidth() - 2)
 			if(y > yy && y < yy + 14)
+			{
 				on = !on;
+				
+				return true;
+			}
+		
+		return false;
 	}
 	
 	public boolean isEnabled()

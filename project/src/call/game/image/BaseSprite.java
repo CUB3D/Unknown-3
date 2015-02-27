@@ -2,8 +2,9 @@ package call.game.image;
 
 import call.game.utils.Translate;
 import call.game.utils.Vec2Double;
+import call.mappy.pathfinding.IPathing;
 
-public class BaseSprite
+public class BaseSprite implements IPathing
 {
 	private double x;
 	private double y;
@@ -76,5 +77,8 @@ public class BaseSprite
 	}
 	
 	@Override
-	public Object clone() {return null;}
+	public Object clone()
+	{
+		return new BaseSprite(this.getX(), this.getY());
+	}
 }

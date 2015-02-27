@@ -5,7 +5,7 @@ public class GameSettings
 {
 	public static final int DISPLAY_NONE = 0x1;
 	public static final int DISPLAY_VSYNC = 0x2;
-	public static final int DISPLAY_AUTOCLEAN = 0x4;
+	public static final int DISPLAY_AUTOCLEAN = 0x3;
 	
 	private int width;
 	private int height;

@@ -16,7 +16,7 @@ public interface MouseListener
 	 * @param state The state of the button
 	 * @param button The button on the mouse
 	 */
-	void onClick(int x, int y, int state, int button);
+	boolean onClick(int x, int y, int state, int button);
 	
 	
 	/**

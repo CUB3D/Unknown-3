@@ -35,7 +35,7 @@ public class OverlayMenu implements MouseListener
 
 	public void render()
 	{
-		if(!open)
+		if(!isOpen())
 			return;
 
 		
@@ -50,14 +50,24 @@ public class OverlayMenu implements MouseListener
 	}
 
 	@Override
-	public void onClick(int x, int y, int state, int button)
+	public boolean onClick(int x, int y, int state, int button)
 	{	
+		if(!isOpen())
+			return false;
+		
 		if(x > this.x + width - 22 && x < this.x + width - 2)
 			if(y > this.y + height - 22 && y < this.y + height - 2)
+			{
 				close();
+				
+				return true;
+			}
 		
 		for(int i = 0; i < buttons.size(); i++)
-			buttons.get(i).onClick(x, y, this, i);
+			if(buttons.get(i).onClick(x, y, this, i))
+				return true;
+		
+		return false;
 	}
 	
 	public void addButton(BasicMenuButton button)

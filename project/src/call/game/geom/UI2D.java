@@ -45,15 +45,40 @@ public class UI2D
 	
 	public static void outlineRect(double x, double y, double width, double height, int col)
 	{
-		int linewidth = 8;
+		int lineWidth = 8;
 		
-		UI2D.line(x, y, x, y + height, linewidth, col);
+		GL2 gl = Unknown.getGL();
+
+		int blue = (col >> 0) & 0xFF;
+		int green = (col >> 8) & 0xFF;
+		int red = (col >> 16) & 0xFF;
+		int alpha = (col >> 24) & 0xFF;
+
+		gl.glDisable(GL2.GL_LIGHTING);
+		gl.glDisable(GL2.GL_TEXTURE_2D);
 		
-		UI2D.line(x, y, x + width, y, linewidth, col);
+		gl.glEnable(GL2.GL_BLEND);
+		gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
 		
-		UI2D.line(x, y + height, x + width, y + height, linewidth, col);
+		gl.glBegin(GL2.GL_LINES);
 		
-		UI2D.line(x + width, y, x + width, y + height, linewidth, col);
+		gl.glLineWidth(lineWidth);
+		
+		gl.glColor4f(red / 255.0f, green / 255.0f, blue / 255.0f, alpha / 255.0f);
+
+		gl.glVertex2d(x, y);
+		gl.glVertex2d(x, y + height);
+		
+		gl.glVertex2d(x, y);
+		gl.glVertex2d(x + width, y);
+		
+		gl.glVertex2d(x, y + height);
+		gl.glVertex2d(x + width, y + height);
+		
+		gl.glVertex2d(x + width, y);
+		gl.glVertex2d(x + width, y + height);
+		
+		gl.glEnd();
 	}
 
 	public static void square(double x, double y, double size)
@@ -159,26 +184,19 @@ public class UI2D
 		gl.glEnd();
 	}
 	
+	public static Font defaultFont = new Font("Serif", Font.PLAIN, 11);
+	
+	private static TextRenderer tr = new TextRenderer(defaultFont);
+	
 	public static void renderText(String text, int x, int y)
 	{
-		renderText(text, x, y, new Font("Serif", Font.PLAIN, 11));
-	}
-	
-	public static void renderText(String text, int x, int y, Font font)
-	{
-		TextRenderer tr = new TextRenderer(font);
-
-		GL2 gl = Unknown.getGL();
+		tr.setUseVertexArrays(true);
 		
 		tr.begin3DRendering();
-		
-		gl.glPushMatrix();
 		
 		tr.draw(text, x, y);
 		
 		tr.flush();
-		
-		gl.glPopMatrix();
 		
 		tr.end3DRendering(); 
 	}
