@@ -18,9 +18,9 @@ import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
 
 public class Image implements IBounded
 {
-	public static final int FLIP_NONE = 0x1;
-	public static final int FLIP_Y = 0x2;
-	public static final int FLIP_X = 0x3;
+	public static final int FLIP_NONE = 1;
+	public static final int FLIP_Y = 2;
+	public static final int FLIP_X = 4;
 
 	private Texture text = null;
 	private int flipData = FLIP_NONE;
@@ -81,7 +81,7 @@ public class Image implements IBounded
 
 		gl.glEnable(GL2.GL_BLEND);
 		gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
-		
+
 		text.bind(gl);
 
 		text.setTexParameteri(gl, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_NEAREST);
@@ -98,25 +98,27 @@ public class Image implements IBounded
 
 		gl.glBegin(GL2.GL_QUADS);
 
-		if((flipData | FLIP_X) == FLIP_X && (flipData | FLIP_Y) == FLIP_Y)
-			renderFlipBoth(gl, x, y);
+		if((flipData & FLIP_NONE) != 0)
+			renderNoManipulate(gl, x, y);
 		else
-			if((flipData | FLIP_Y) == FLIP_Y)
-				renderFlipY(gl, x, y);
+			if((flipData & FLIP_X) != 0 && (flipData & FLIP_Y) != 0)
+				renderFlipBoth(gl, x, y);
 			else
-				if((flipData | FLIP_X) == FLIP_X)
-					renderFlipX(gl, x, y);
+				if((flipData & FLIP_Y) != 0)
+					renderFlipY(gl, x, y);
 				else
-					renderNoManipulate(gl, x, y);
-		
+					if((flipData & FLIP_X) != 0)
+						renderFlipX(gl, x, y);
+
+
 		gl.glEnd();
-		
+
 		if(DebugMenu.getInstance().canShowImageDebug())
 			renderDebug(x, y);
 
 		text.disable(gl);
 	}
-	
+
 	private void renderDebug(float x, float y)
 	{
 		UI2D.outlineRect(x, y, bounds.getWidth(), bounds.getHeight(), 0xFF00FF00);
@@ -221,7 +223,7 @@ public class Image implements IBounded
 	{
 		return bounds;
 	}
-	
+
 	@Override
 	public Object clone()
 	{
