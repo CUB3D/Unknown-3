@@ -7,13 +7,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import call.game.main.ClassUtils;
+import call.game.main.EnumCallTime;
+import call.game.main.IRenderable;
+import call.game.main.IUpdateable;
+import call.game.main.Unknown;
 
 /**
  * A state system for managing states and passing inner-state data
  * 
  * @author Callum
  */
-public class StateEngine
+public class StateEngine implements IRenderable, IUpdateable
 {
 	/**
 	 * The list of states stored in class form
@@ -41,6 +45,12 @@ public class StateEngine
 	 */
 	private Method update;
 
+	public StateEngine(EnumCallTime callTime)
+	{
+		Unknown.registerRenderable(this, callTime);
+		Unknown.registerUpdateable(this, callTime);
+	}
+	
 	/**
 	 * Add's a state to the engine
 	 * 
@@ -104,31 +114,26 @@ public class StateEngine
 		return curStateInstance;
 	}
 
-	
-	/**
-	 * Call's the render method of the current state (if there is one)
-	 */
-	public void renderState()
-	{
-		if(render != null)
-		{
-			try
-			{
-				render.invoke(curStateInstance, (Object[]) null);
-			}catch(Exception e) {e.printStackTrace();}
-		}
-	}
-
-	/**
-	 * Call's the update method of the current state (if there is one)
-	 */
-	public void updateState()
+	@Override
+	public void update()
 	{
 		if(update != null)
 		{
 			try
 			{
 				update.invoke(curStateInstance, (Object[]) null);
+			}catch(Exception e) {e.printStackTrace();}
+		}
+	}
+
+	@Override
+	public void render()
+	{
+		if(render != null)
+		{
+			try
+			{
+				render.invoke(curStateInstance, (Object[]) null);
 			}catch(Exception e) {e.printStackTrace();}
 		}
 	}

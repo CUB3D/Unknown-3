@@ -1,9 +1,29 @@
+/**
+ * Copyright 2015 Callum A. D. Thomson
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package call.game.main;
 
 import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.media.opengl.GL2;
@@ -29,19 +49,45 @@ import cub3d.file.main.ParseException;
 import cub3d.file.reader.BasicReader;
 import cub3d.file.reader.CallReader;
 
+/**
+ * @author Callum, AKA: CUB3D
+ */
 public class Unknown
 {
 	private static GLProfile profile;
-
+	
+	/**
+	 * The internal size of the window in pixels
+	 */
 	private static Dimension screenSize;
 
+	/**
+	 * The OpenGL instance currently in use
+	 */
 	private static GL2 gl;
 
+	/**
+	 * The keyboard instance
+	 */
 	private static Keyboard keyboard;
+	
+	/**
+	 * The mouse instance
+	 */
 	private static Mouse mouse;
 
+	/**
+	 * The last recorded FPS
+	 */
 	private static int FPS;
+	
+	/**
+	 * The last recorded TPS
+	 */
 	private static int TPS;
+	
+	private static Map<EnumCallTime, Set<IUpdateable>> updateables = new HashMap<EnumCallTime, Set<IUpdateable>>();
+	private static Map<EnumCallTime, Set<IRenderable>> renderables = new HashMap<EnumCallTime, Set<IRenderable>>();
 
 	private static Logger logger = Logger.getLogger("UNKNOWN-CORE");
 
@@ -165,21 +211,19 @@ public class Unknown
 		// load mods
 		CALLModLoader.getInstance();
 
-
-
 		int width = settings.getWidth();
 		int height = settings.getHeight();
 		String title = settings.getTitle();
 		int fps = settings.getFps();
 
-		//System.out.println("width" + width);
-
-		setScreenSize(new Dimension(width, height));
+		screenSize = new Dimension(width, height);
 
 		profile = GLProfile.get(GLProfile.GL2);
+		
 		GLProfile.initSingleton();
+		
 		GLCapabilities caps = new GLCapabilities(profile);
-		// create JOGL frame
+		
 		GLWindow window = GLWindow.create(caps);
 		window.setSize(width, height);
 
@@ -230,6 +274,9 @@ public class Unknown
 		TPS = tPS;
 	}
 
+	/**
+	 * @return The last recorded TPS
+	 */
 	public static int getTPS()
 	{
 		return TPS;
@@ -240,16 +287,17 @@ public class Unknown
 		FPS = fPS;
 	}
 
+	/**
+	 * @return The last recorded FPS
+	 */
 	public static int getFPS()
 	{
 		return FPS;
 	}
 
-	public static void setScreenSize(Dimension screenSize)
-	{
-		Unknown.screenSize = screenSize;
-	}
-
+	/**
+	 * @return A Dimension containing the internal screen size in pixels
+	 */
 	public static Dimension getScreenSize()
 	{
 		return screenSize;
@@ -260,16 +308,65 @@ public class Unknown
 		Unknown.gl = gl;
 	}
 
+	/**
+	 * @return The current GL instance
+	 */
 	public static GL2 getGL()
 	{
 		return gl;
 	}
+	
+	public static void registerUpdateable(IUpdateable update, EnumCallTime callTime)
+	{
+		if(callTime == EnumCallTime.NEVER)
+			return;
+		
+		Set<IUpdateable> iUpdateables = updateables.get(callTime);
+		
+		if(iUpdateables == null)
+			iUpdateables = new HashSet<IUpdateable>();
+		
+		iUpdateables.add(update);
+		
+		updateables.put(callTime, iUpdateables);
+	}
+	
+	public static Map<EnumCallTime, Set<IUpdateable>> getUpdateables()
+	{
+		return updateables;
+	}
+	
+	public static void registerRenderable(IRenderable render, EnumCallTime callTime)
+	{
+		if(callTime == EnumCallTime.NEVER)
+			return;
+		
+		Set<IRenderable> iRenderables = renderables.get(callTime);
+		
+		if(iRenderables == null)
+			iRenderables = new HashSet<IRenderable>();
+		
+		iRenderables.add(render);
+		
+		renderables.put(callTime, iRenderables);
+	}
+	
+	public static Map<EnumCallTime, Set<IRenderable>> getRenderables()
+	{
+		return renderables;
+	}
 
+	/**
+	 * @return The current GL profile
+	 */
 	public static GLProfile getGLProfile()
 	{
 		return profile;
 	}
 
+	/**
+	 * @return The keyboard instance
+	 */
 	public static Keyboard getKeyboard()
 	{
 		if(keyboard == null)
@@ -278,6 +375,9 @@ public class Unknown
 		return keyboard;
 	}
 
+	/**
+	 * @return The mouse instance
+	 */
 	public static Mouse getMouse()
 	{
 		if(mouse == null)

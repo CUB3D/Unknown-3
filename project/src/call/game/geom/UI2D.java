@@ -184,20 +184,22 @@ public class UI2D
 		gl.glEnd();
 	}
 	
-	public static Font defaultFont = new Font("Serif", Font.PLAIN, 11);
-	
-	private static TextRenderer tr = new TextRenderer(defaultFont);
+	private static Font defaultFont = new Font("Serif", Font.PLAIN, 11);
+	private static TextRenderer textRenderer = new TextRenderer(defaultFont);
 	
 	public static void renderText(String text, int x, int y)
 	{
-		tr.setUseVertexArrays(true);
+		GL2 gl = Unknown.getGL();
 		
-		tr.begin3DRendering();
+		textRenderer.begin3DRendering();
 		
-		tr.draw(text, x, y);
+		gl.glPushMatrix();
 		
-		tr.flush();
+		textRenderer.draw(text, x, y);
 		
-		tr.end3DRendering(); 
+		textRenderer.flush();
+		gl.glPopMatrix();
+		
+		textRenderer.end3DRendering(); 
 	}
 }
