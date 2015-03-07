@@ -20,7 +20,7 @@ public class DebugMenu extends OverlayMenu
 		
 		showMouseCoords = new BasicMenuButton("Show mouse coords", this);
 		showImageDebug = new BasicMenuButton("Image Debuger", this);
-		showFPS = new BasicMenuButton("Show F/T PS");
+		showFPS = new BasicMenuButton("Show F/T PS", this);
 	}
 	
 	@Override
@@ -40,8 +40,13 @@ public class DebugMenu extends OverlayMenu
 		
 		if(canShowFPS())
 		{
-			UI2D.renderText("FPS: " + Unknown.getFPS() + ", TPS: " + Unknown.getTPS(), 40, 10);
+			UI2D.renderText("FPS: " + Unknown.getFPS() + ", TPS: " + Unknown.getTPS(), 2, (int) Unknown.getScreenSize().getHeight() - 14);
 		}
+	}
+	
+	public void setShowMouseCoords(boolean b)
+	{
+		this.showMouseCoords.on = b;
 	}
 	
 	public boolean canShowMouseCoords()
@@ -49,9 +54,19 @@ public class DebugMenu extends OverlayMenu
 		return showMouseCoords.isEnabled();
 	}
 	
+	public void setShowImageDebug(boolean b)
+	{
+		this.showImageDebug.on = b;
+	}
+	
 	public boolean canShowImageDebug()
 	{
 		return showImageDebug.isEnabled();
+	}
+	
+	public void setShowFPS(boolean b)
+	{
+		this.showFPS.on = b;
 	}
 	
 	public boolean canShowFPS()
