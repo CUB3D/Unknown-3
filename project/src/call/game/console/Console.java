@@ -1,6 +1,8 @@
 package call.game.console;
 
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,7 +11,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 
-public class Console
+public class Console implements ActionListener
 {
 	private static Console instance;
 	
@@ -34,7 +36,7 @@ public class Console
 		
 		this.input = new JTextField();
 		this.input.setBounds(2, 245, 290, 25);
-		this.input.addActionListener((e) -> sendCommand());
+		this.input.addActionListener(this);
 		this.frame.add(input);
 		
 		inputLog = new JTextArea();
@@ -66,6 +68,12 @@ public class Console
 		
 		printLine(inp);
 		input.setText("");
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent arg0)
+	{
+		sendCommand();
 	}
 	
 	public static void printLine(String s)
