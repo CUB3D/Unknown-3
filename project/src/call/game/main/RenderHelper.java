@@ -193,7 +193,7 @@ public class RenderHelper implements GLEventListener
 
 		gl.glViewport(0, 0, width, height);
 
-		gl.glOrtho(0, width, 0, height, 0, 1);
+		gl.glOrtho(0, width, 0, height, -1, 1);
 
 		if((settings.getDisplaySettings() | GameSettings.DISPLAY_VSYNC) == GameSettings.DISPLAY_VSYNC)
 			gl.setSwapInterval(1); // enable v-sync
