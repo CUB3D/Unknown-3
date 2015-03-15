@@ -123,7 +123,7 @@ public class RenderHelper implements GLEventListener
 
 		Unknown.setGL(gl);
 
-		if((settings.getDisplaySettings() | GameSettings.DISPLAY_AUTOCLEAN) == GameSettings.DISPLAY_AUTOCLEAN)
+		if((settings.getDisplaySettings() & GameSettings.DISPLAY_AUTOCLEAN) != 0)
 			gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
 		
 		Map<EnumCallTime, Set<IRenderable>> map = Unknown.getRenderables();
@@ -195,7 +195,7 @@ public class RenderHelper implements GLEventListener
 
 		gl.glOrtho(0, width, 0, height, -1, 1);
 
-		if((settings.getDisplaySettings() | GameSettings.DISPLAY_VSYNC) == GameSettings.DISPLAY_VSYNC)
+		if((settings.getDisplaySettings() & GameSettings.DISPLAY_VSYNC) != 0)
 			gl.setSwapInterval(1); // enable v-sync
 	}
 }

@@ -30,6 +30,7 @@ import javax.media.opengl.GL2;
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLProfile;
 
+import call.game.image.ImageBulkRenderer;
 import call.game.input.keyboard.KeyBind;
 import call.game.input.keyboard.Keyboard;
 import call.game.input.mouse.Mouse;
@@ -85,6 +86,10 @@ public class Unknown
 	 * The last recorded TPS
 	 */
 	private static int TPS;
+	
+	private static ImageBulkRenderer imageBulkRenderer;
+	
+	private static GameSettings settings;
 	
 	private static Map<EnumCallTime, Set<IUpdateable>> updateables = new HashMap<EnumCallTime, Set<IUpdateable>>();
 	private static Map<EnumCallTime, Set<IRenderable>> renderables = new HashMap<EnumCallTime, Set<IRenderable>>();
@@ -145,7 +150,7 @@ public class Unknown
 			int maxFPS = 120;
 			int maxTPS = 60;
 			boolean vSync = false;
-			boolean autoClear = false;
+			boolean autoClear = true;
 
 			try
 			{
@@ -192,10 +197,10 @@ public class Unknown
 			settings.setDisplaySettings(GameSettings.DISPLAY_NONE);
 			
 			if(vSync)
-				settings.setDisplaySettings(settings.getDisplaySettings() & GameSettings.DISPLAY_VSYNC);
+				settings.setDisplaySettings(settings.getDisplaySettings() | GameSettings.DISPLAY_VSYNC);
 			
 			if(autoClear)
-				settings.setDisplaySettings(settings.getDisplaySettings() & GameSettings.DISPLAY_AUTOCLEAN);
+				settings.setDisplaySettings(settings.getDisplaySettings() | GameSettings.DISPLAY_AUTOCLEAN);
 		}
 		else
 		{
@@ -261,6 +266,8 @@ public class Unknown
 			}
 		});
 
+		Unknown.settings = settings;
+		
 		window.addGLEventListener(new RenderHelper(width, height, clazz, settings));
 
 		//create animator
@@ -314,6 +321,11 @@ public class Unknown
 	public static GL2 getGL()
 	{
 		return gl;
+	}
+
+	public static GameSettings getSettings()
+	{
+		return settings;
 	}
 	
 	public static void registerUpdateable(IUpdateable update, EnumCallTime callTime)
@@ -384,5 +396,13 @@ public class Unknown
 			Unknown.mouse = new Mouse();
 
 		return mouse;
+	}
+	
+	public static ImageBulkRenderer getImageBulkRenderer()
+	{
+		if(imageBulkRenderer == null)
+			Unknown.imageBulkRenderer = new ImageBulkRenderer();
+		
+		return imageBulkRenderer;
 	}
 }

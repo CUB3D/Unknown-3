@@ -1,16 +1,12 @@
 package call.game.image;
-
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
+import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 
-import call.game.geom.UI2D;
 import call.game.main.Unknown;
 import call.game.physicx.BoundingBox;
 import call.game.physicx.IBounded;
-import call.main.menu.DebugMenu;
 import call.utils.ImageUtils;
 
 import com.jogamp.opengl.util.texture.Texture;
@@ -18,182 +14,177 @@ import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
 
 public class Image implements IBounded
 {
-	public static final int FLIP_NONE = 1;
-	public static final int FLIP_Y = 2;
-	public static final int FLIP_X = 4;
-
-	private Texture text = null;
-	private int flipData = FLIP_NONE;
-
+	public static final float[] FLIP_BOTH = {
+			
+			1, 1,
+			1, 0,
+			0, 0,
+			
+			1, 1,
+			0, 1,
+			0, 0
+	};
+	
+	public static final float[] FLIP_X = {
+			
+			1, 0,
+			1, 1,
+			0, 1,
+			
+			1, 0,
+			0, 0,
+			0, 1
+	};
+	
+	public static final float[] FLIP_Y = {
+		0, 1,
+		0, 0,
+		1, 0,
+		
+		0, 1,
+		1, 1,
+		1, 0
+	};
+	
+	public static final float[] FLIP_NONE = {
+		
+		0, 0,
+		0, 1,
+		1, 1,
+		
+		0, 0,
+		1, 0,
+		1, 1
+};
+	
+	
+	private Texture texture;
+	
+	private int id;
+	
+	private float width;
+	private float height;
+	
+	private float scale = 1.0f;
+	
+	private BufferedImage backend;
+	
 	private BoundingBox bounds = null;
 
-	private BufferedImage backend = null;
-
-	private boolean hasInit = false;
-
-	private float scale = 1;
-
-
-	public Image(String s)
+	
+	public Image(String name)
 	{
-		backend = ImageCache.getImage(s);
+		this.backend = ImageCache.getImage(name);
+		
+		this.id = TexturedVBO.getNextVBOID();
+		
+		init();
 	}
-
-	public Image(BufferedImage img)
+	
+	public Image(BufferedImage image)
 	{
-		this.backend = img;
+		this.backend = image;
+		
+		init();
 	}
 
 	public void init()
 	{
-		GL2 gl = Unknown.getGL();
+		TexturedVBO.init();
+		
+		try {
+			this.texture = AWTTextureIO.newTexture(Unknown.getGLProfile(), backend, true);
+		} catch (Exception e) {e.printStackTrace();}	
+		
+		width = texture.getWidth() * scale;
 
-		AffineTransform at = AffineTransform.getScaleInstance(1, -1);
-		at.translate(0, -backend.getHeight());
-		AffineTransformOp op = new AffineTransformOp(at, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+		height = texture.getHeight() * scale;
+		
+		bounds = new BoundingBox(0, 0, width, height);
 
-		this.backend = op.filter(backend, null);
+		float[] vertexes = {
 
-		text = AWTTextureIO.newTexture(Unknown.getGLProfile(), backend, false);
-		text.bind(gl);
+				0, width,
+				0, 0,
+				height, 0,
 
-		bounds = new BoundingBox(0, 0, text.getImageWidth() * scale, text.getImageHeight() * scale);
+				0, width,
+				height, width,
+				height, 0,
+		};
 
-		hasInit = true;
+
+		TexturedVBO.setVertexBuffer(id, vertexes);
+		
+		TexturedVBO.setTextureBuffer(id, FLIP_NONE);
 	}
 
-	public void render(int x, int y)
+
+	public void render(double x, double y)
 	{
 		this.render(x, y, 0);
 	}
-
-	public void render(int x, int y, double angle)
+	
+	public void render(double x, double y, double angle)
 	{
-		if(!hasInit)
-			init();
-
-		bounds.x = x;
-		bounds.y = y;
-
+		Unknown.getImageBulkRenderer().addImage(new RenderData(this, x, y, angle));
+	}
+	
+	public void render_raw(double x, double y, double angle)
+	{
 		GL2 gl = Unknown.getGL();
+		float dx = width / 2;
+		float dy = height / 2;
+		
+		
+		gl.glTranslated(x + dx, y + dy, 0);
+		
+		gl.glRotated(angle, 0, 0, 1);
+		gl.glTranslated(-dx, -dy, 0);
+		
+		// bind texture
+		gl.glBindTexture(GL.GL_TEXTURE_2D, texture.getTextureObject()); // bind texture
+		gl.glTexParameterf(GL.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_NEAREST);
+		gl.glTexParameterf(GL.GL_TEXTURE_2D, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_NEAREST);
+		// bind texture buffer
+		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, TexturedVBO.getBuffer(id, TexturedVBO.BUFFER_TEXTURE)); // bind texture buffer
+		gl.glTexCoordPointer(2, GL.GL_FLOAT, 0, 0);
+		//bind vertex buffer
+		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, TexturedVBO.getBuffer(id, TexturedVBO.BUFFER_VERTEX));
+		gl.glVertexPointer(3, GL.GL_FLOAT, 0, 0);
+		
 
-		text.enable(gl);
-
-		gl.glEnable(GL2.GL_BLEND);
-		gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
-
-		text.bind(gl);
-
-		text.setTexParameteri(gl, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_NEAREST);
-
-
-		gl.glMatrixMode(GL2.GL_TEXTURE);
-		gl.glLoadIdentity();
-		gl.glTranslated(0.5, 0.5, 0);
-		gl.glRotated(angle, 0, 0, 1.0);
-		gl.glTranslated(-0.5, -0.5, 0);
-		gl.glMatrixMode(GL2.GL_MODELVIEW);
-
-		gl.glColor3f(1, 1, 1);
-
-		gl.glBegin(GL2.GL_QUADS);
-
-		if((flipData & FLIP_NONE) != 0)
-			renderNoManipulate(gl, x, y);
-		else
-			if((flipData & FLIP_X) != 0 && (flipData & FLIP_Y) != 0)
-				renderFlipBoth(gl, x, y);
-			else
-				if((flipData & FLIP_Y) != 0)
-					renderFlipY(gl, x, y);
-				else
-					if((flipData & FLIP_X) != 0)
-						renderFlipX(gl, x, y);
-
-
-		gl.glEnd();
-
-		if(DebugMenu.getInstance().canShowImageDebug())
-			renderDebug(x, y);
-
-		text.disable(gl);
+		gl.glDrawArrays(GL.GL_TRIANGLES, 0, TexturedVBO.getSize(TexturedVBO.BUFFER_VERTEX, id));
+		
+		gl.glTranslated(dx, dy, 0);
+		gl.glRotated(-angle, 0, 0, 1);
+		
+		gl.glTranslated(- x - dx, -y - dy, 0);
 	}
-
-	private void renderDebug(float x, float y)
+	
+	public void setTextureCoords(float[] data)
 	{
-		UI2D.outlineRect(x, y, bounds.getWidth(), bounds.getHeight(), 0xFF00FF00);
+		TexturedVBO.setTextureBuffer(this.id, data);
 	}
-
-	public void renderFlipBoth(GL2 gl, float x, float y)
+	
+	public Image setScale(float scale)
 	{
-		gl.glTexCoord2f(1, 1);
-		gl.glVertex2f(x, y);
+		this.scale = scale;
+		init();
 
-		gl.glTexCoord2f(1, 0);
-		gl.glVertex2f(x, (float) (y + bounds.getHeight()));
-
-		gl.glTexCoord2f(0, 0);
-		gl.glVertex2f((float) (x + bounds.getWidth()), (float) (y + bounds.getHeight()));
-
-		gl.glTexCoord2f(0, 1);
-		gl.glVertex2f((float) (x + bounds.getWidth()), y);
+		return this;
 	}
 
-	public void renderFlipY(GL2 gl, float x, float y)
+	public float getScale()
 	{
-		gl.glTexCoord2f(0, 1);
-		gl.glVertex2f(x, y);
-
-		gl.glTexCoord2f(0, 0);
-		gl.glVertex2f(x, (float) (y + bounds.getHeight()));
-
-		gl.glTexCoord2f(1, 0);
-		gl.glVertex2f((float) (x + bounds.getWidth()), (float) (y + bounds.getHeight()));
-
-		gl.glTexCoord2f(1, 1);
-		gl.glVertex2f((float) (x + bounds.getWidth()), y);
+		return scale;
 	}
-
-	public void renderFlipX(GL2 gl, float x, float y)
-	{
-		gl.glTexCoord2f(1, 0);
-		gl.glVertex2f(x, y);
-
-		gl.glTexCoord2f(1, 1);
-		gl.glVertex2f(x, (float) (y + bounds.getHeight()));
-
-		gl.glTexCoord2f(0, 1);
-		gl.glVertex2f((float) (x + bounds.getWidth()), (float) (y + bounds.getHeight()));
-
-		gl.glTexCoord2f(0, 0);
-		gl.glVertex2f((float) (x + bounds.getWidth()), y);
-	}
-
-	public void renderNoManipulate(GL2 gl, float x, float y)
-	{
-		gl.glTexCoord2d(0, 0);
-		gl.glVertex2d(x, y);
-
-		gl.glTexCoord2d(0, 1);
-		gl.glVertex2f(x, (float) (y + bounds.getHeight()));
-
-		gl.glTexCoord2d(1, 1);
-		gl.glVertex2d((float) (x + bounds.getWidth()), (float) (y + bounds.getHeight()));
-
-		gl.glTexCoord2d(1, 0);
-		gl.glVertex2d((float) (x + bounds.getWidth()), y);
-	}
-
-	public void setFlipType(int flip)
-	{
-		this.flipData = flip;
-	}
-
+	
 	public BufferedImage getBackend()
 	{
 		return backend;
 	}
-
+	
 	public int getWidth()
 	{
 		return backend.getWidth();
@@ -203,21 +194,7 @@ public class Image implements IBounded
 	{
 		return backend.getHeight();
 	}
-
-	public Image setScale(float scale)
-	{
-		this.scale = scale;
-		hasInit = false;
-
-		return this;
-	}
-
-	public float getScale()
-	{
-		return scale;
-	}
-
-
+	
 	@Override
 	public BoundingBox getBounds()
 	{

@@ -3,9 +3,9 @@ package call.game.main;
 
 public class GameSettings
 {
-	public static final int DISPLAY_NONE = 0x1;
-	public static final int DISPLAY_VSYNC = 0x2;
-	public static final int DISPLAY_AUTOCLEAN = 0x3;
+	public static final int DISPLAY_NONE = 1;
+	public static final int DISPLAY_VSYNC = 2;
+	public static final int DISPLAY_AUTOCLEAN = 4;
 	
 	private int width;
 	private int height;
@@ -13,6 +13,8 @@ public class GameSettings
 	private int tps;
 	private int fps;
 	private int displaySettings;
+	
+	private int requiredVBOSpace;
 	
 	public GameSettings()
 	{
@@ -31,12 +33,18 @@ public class GameSettings
 	
 	public GameSettings(int width, int height, String title, int fps, int tps, int displaySettings)
 	{
+		this(width, height, title, fps, tps, displaySettings, 100);
+	}
+	
+	public GameSettings(int width, int height, String title, int fps, int tps, int displaySettings, int VBOSpace)
+	{
 		this.width = width;
 		this.height = height;
 		this.title = title;
 		this.fps = fps;
 		this.tps = tps;
 		this.displaySettings = displaySettings;
+		this.requiredVBOSpace = VBOSpace;
 	}
 	
 	public void setWidth(int width)
@@ -97,5 +105,15 @@ public class GameSettings
 	public int getDisplaySettings()
 	{
 		return displaySettings;
+	}
+	
+	public void setRequiredVBOSpace(int requiredVBOSpace)
+	{
+		this.requiredVBOSpace = requiredVBOSpace;
+	}
+	
+	public int getRequiredVBOSpace()
+	{
+		return requiredVBOSpace;
 	}
 }
