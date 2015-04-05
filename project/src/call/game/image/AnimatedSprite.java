@@ -12,6 +12,11 @@ public class AnimatedSprite extends BaseSprite
 		this(0, 0, i, callTime);
 	}
 	
+	public AnimatedSprite(double x, double y)
+	{
+		this(x, y, EnumCallTime.NEVER);
+	}
+	
 	public AnimatedSprite(double x, double y, EnumCallTime callTime)
 	{
 		this(x, y, null, callTime);
