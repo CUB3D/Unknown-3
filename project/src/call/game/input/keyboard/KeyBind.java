@@ -53,7 +53,7 @@ public class KeyBind implements KeyboardListener
 		if(state == Keyboard.KEY_DOWN)
 		{
 			for(KeyBindListener kbl : listeners)
-				kbl.onKeyPressed();
+				kbl.onKeyInterract(this, false);
 
 			down = true;
 		}
@@ -61,7 +61,7 @@ public class KeyBind implements KeyboardListener
 		if(state == Keyboard.KEY_UP)
 		{
 			for(KeyBindListener kbl : listeners)
-				kbl.onKeyRealeased();
+				kbl.onKeyInterract(this, true);
 
 			down = false;
 		}

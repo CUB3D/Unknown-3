@@ -1,12 +1,12 @@
 package call.game.entitys;
 
-import call.game.image.Sprite;
+import call.game.image.BaseSprite;
 
 public class TwoStateEntity extends BaseEntity
 {
 	protected boolean alive = true;
 	
-	public TwoStateEntity(Sprite s)
+	public TwoStateEntity(BaseSprite s)
 	{
 		super(s);
 	}
