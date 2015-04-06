@@ -91,6 +91,8 @@ public class Unknown
 	
 	private static GameSettings settings;
 	
+	private static boolean isDebuging = true;
+	
 	private static Map<EnumCallTime, Set<IUpdateable>> updateables = new HashMap<EnumCallTime, Set<IUpdateable>>();
 	private static Map<EnumCallTime, Set<IRenderable>> renderables = new HashMap<EnumCallTime, Set<IRenderable>>();
 
@@ -98,6 +100,8 @@ public class Unknown
 
 	public static void main(String[] args)
 	{
+		isDebuging = false;
+		
 		ModEntry game = ModDiscoverer.loadMod(new File("core/Game.jar"), new File("core"));
 
 		Class<?> clazz = null;
@@ -274,6 +278,11 @@ public class Unknown
 		FPSAnimator ani = new FPSAnimator(fps);
 		ani.add(window);
 		ani.start();
+	}
+	
+	public static boolean isDebugging()
+	{
+		return isDebuging;
 	}
 
 	public static void setTPS(int tPS)

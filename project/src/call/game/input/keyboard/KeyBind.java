@@ -24,6 +24,7 @@ public class KeyBind implements KeyboardListener
 	private int defaultKey = -1;
 	private int realKey = -1;
 	private boolean down = false;
+	private boolean isRepeating = false;
 
 	private List<KeyBindListener> listeners = new ArrayList<KeyBindListener>();
 
@@ -50,20 +51,26 @@ public class KeyBind implements KeyboardListener
 
 	private void onKeyPress(int state, int keycode)
 	{
+		if(state == Keyboard.KEY_REPEAT)
+		{
+			isRepeating = true;
+		}
+		
 		if(state == Keyboard.KEY_DOWN)
 		{
 			for(KeyBindListener kbl : listeners)
-				kbl.onKeyPressed();
+				kbl.onKeyInterract(this, true);
 
-			down = true;
+			down = true;	
 		}
 
 		if(state == Keyboard.KEY_UP)
 		{
 			for(KeyBindListener kbl : listeners)
-				kbl.onKeyRealeased();
+				kbl.onKeyInterract(this, false);
 
 			down = false;
+			isRepeating = false;
 		}
 	}
 
@@ -75,6 +82,11 @@ public class KeyBind implements KeyboardListener
 	public boolean isDown()
 	{
 		return down;
+	}
+	
+	public boolean isRepeating()
+	{
+		return isRepeating;
 	}
 
 	public String getName()
@@ -126,7 +138,7 @@ public class KeyBind implements KeyboardListener
 			System.out.println("Error saving keybinds: ");
 			e.printStackTrace();
 		}finally {
-				cw.cleanup();
+			cw.cleanup();
 		}
 	}
 

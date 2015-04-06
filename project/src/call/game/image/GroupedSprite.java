@@ -15,6 +15,11 @@ public class GroupedSprite extends BaseSprite
 		super(x, y, callTime);
 	}
 	
+	public GroupedSprite(double x, double y)
+	{
+		this(x, y, EnumCallTime.NEVER);
+	}
+	
 	@Override
 	public void render()
 	{

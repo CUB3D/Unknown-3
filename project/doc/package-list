@@ -1,3 +1,4 @@
+call.game.console
 call.game.entitys
 call.game.entitys.particle
 call.game.geom
@@ -14,5 +15,6 @@ call.game.shader
 call.game.sound
 call.game.state
 call.game.template
+call.game.tiles
 call.game.utils
 call.main.menu

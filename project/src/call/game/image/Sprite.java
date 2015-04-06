@@ -45,6 +45,12 @@ public class Sprite extends BaseSprite
 	{
 		return img;
 	}
+	
+	@Override
+	public void setImage(Image img)
+	{
+		this.img = img;
+	}
 
 	@Override
 	public Object clone()
