@@ -48,6 +48,8 @@ public class BaseSprite implements IPathing, IRenderable
 	
 	@Override
 	public void render() {}
+	
+	public void setImage(Image img) {}
 	public Image getImage() { return null; }
 	
 	public double getX()
