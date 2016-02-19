@@ -61,6 +61,8 @@ public class Unknown
 	 * The internal size of the window in pixels
 	 */
 	private static Dimension screenSize;
+	
+	private static GLWindow window;
 
 	/**
 	 * The OpenGL instance currently in use
@@ -229,7 +231,8 @@ public class Unknown
 		
 		GLCapabilities caps = new GLCapabilities(profile);
 		
-		GLWindow window = GLWindow.create(caps);
+		window = GLWindow.create(caps);
+		
 		window.setSize(width, height);
 
 		window.addKeyListener(Unknown.getKeyboard());
@@ -374,6 +377,11 @@ public class Unknown
 	public static GLProfile getGLProfile()
 	{
 		return profile;
+	}
+	
+	public static GLWindow getWindow()
+	{
+		return window;
 	}
 
 	/**

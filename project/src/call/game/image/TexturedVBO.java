@@ -91,7 +91,7 @@ public class TexturedVBO
 		textures.rewind();  
 
 		// Write out the textures buffer to the currently bound VBO.
-		// Use 'totalBufferSize*4' because we have 4 bytes for a float.
+		// Use 'size*4' because we have 4 bytes for a float.
 		gl.glBufferData(GL.GL_ARRAY_BUFFER, size * 4, textures, GL.GL_STATIC_DRAW); 
 	}
 	
@@ -106,8 +106,6 @@ public class TexturedVBO
 	{
 		int x = number + 2 * id;
 		
-		//System.out.println("Getting: " + x + ", " + sizes[x] + ", id: " + id + ", NUM: " + number);
-		
 		return sizes[x];
 	}
 	
@@ -116,8 +114,6 @@ public class TexturedVBO
 		int x = number + 2 * id;
 		
 		sizes[x] = value;
-		
-		//System.out.println("Setting: " + x + ", " + value + ", id: " + id);
 	}
 	
 	public static int getNextVBOID()
@@ -126,18 +122,5 @@ public class TexturedVBO
 			init();
 		
 		return currentVBO++;
-	}
-	
-	public static void debug()
-	{
-		for(int i : buffers)
-			System.out.println(i);
-		
-		System.out.println("----");
-		
-		for(int i : sizes)
-			System.out.println(i);
-		
-		System.out.println("----");
 	}
 }
